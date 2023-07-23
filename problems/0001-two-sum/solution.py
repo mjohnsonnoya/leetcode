@@ -4,9 +4,7 @@ class Solution:
         for i,j in enumerate(nums):
             dif = target - j
             if dif in difdict:
-                return [difdict[dif],i]
-            difdict[j] = i
-
-
-            
+                return [difdict[dif], i]
+            else:
+                difdict[j] = i
             
