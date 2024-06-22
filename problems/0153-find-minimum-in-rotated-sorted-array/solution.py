@@ -1,15 +1,16 @@
 class Solution:
     def findMin(self, nums: List[int]) -> int:
-        def recfm(numsl):
-            k = len(numsl) // 2
-            if len(numsl) == 2:
-                return min(numsl)
-            elif len(numsl) == 1:
-                return numsl[0]
-            elif numsl[len(numsl) - 1] < numsl[k]:
-                return recfm(numsl[k:len(numsl)])
-            elif (numsl[0] > numsl[k]):
-                return recfm(numsl[0:k+1])
+        l, r = 0, len(nums) - 1
+        while l <= r:
+            print("l: ", l)
+            print("r: ", r)
+            if nums[l - 1] >= nums[l]:
+                return nums[l]
+            if nums[(r + 1) % len(nums)] <= nums[r]:
+                return nums[(r + 1) % len(nums)]
+            m = l + (r - l)//2
+            if nums[m] > nums[r]:
+                l = m + 1
             else:
-                return recfm(numsl[0:k+1])
-        return recfm(nums)
+                r = m - 1
+        return nums[l]
