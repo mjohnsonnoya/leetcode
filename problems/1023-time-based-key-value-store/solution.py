@@ -1,35 +1,37 @@
 class TimeMap:
 
     def __init__(self):
-        self.dictionary = {}
-        
+        self.myDict = {}
+    
     def __binarySearch(self, vals, timestamp):
         l, r = 0, len(vals) - 1
-        res = -1
-        idx = -1
+        res, idx = -1, -1
         while l <= r:
             m = l + (r - l)//2
-            if vals[m][0] <= timestamp:
-                if vals[m][0] >= res:
-                    res = vals[m][0]
+            if vals[m][1] <= timestamp:
+                if vals[m][1] >= res:
+                    res = vals[m][1]
                     idx = m
                 l = m + 1
-            if vals[m][0] > timestamp:
+            else:
                 r = m - 1
-        if idx == -1:
-            return ""
+        if idx != -1:
+            # print(self.myDict)
+            return vals[idx][0]
         else:
-            return vals[idx][1]
+            return ""
 
     def set(self, key: str, value: str, timestamp: int) -> None:
-        if key not in self.dictionary:
-            self.dictionary[key] = []
-        self.dictionary[key].append((timestamp, value))
+        if key not in self.myDict:
+            self.myDict[key] = []
+        self.myDict[key].append((value, timestamp))
 
     def get(self, key: str, timestamp: int) -> str:
-        if key not in self.dictionary:
+        if key not in self.myDict:
             return ""
-        return self.__binarySearch(self.dictionary[key],timestamp)
+        else:
+            return self.__binarySearch(self.myDict[key], timestamp)
+        
 
 
 # Your TimeMap object will be instantiated and called as such:
