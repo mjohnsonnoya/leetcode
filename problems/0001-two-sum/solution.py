@@ -1,10 +1,8 @@
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
         vals = {}
-        for idx, num in enumerate(nums):
-            residual = target - num
-            if residual in vals:
-                return [vals[residual], idx]
+        for i, c in enumerate(nums):
+            if target - c in vals:
+                return [vals[target - c], i]
             else:
-                vals[num] = idx
-        
+                vals[c] = i
