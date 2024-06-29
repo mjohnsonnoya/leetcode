@@ -1,12 +1,10 @@
 class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
-        def string_to_dict(s):
-            string_dict = {}
-            for char in s:
-                string_dict[ord(char)] = string_dict.get(ord(char), 0) + 1
-            return string_dict
+        freq1 = [0] * 26
+        freq2 = [0] * 26
+        for c in s:
+            freq1[ord(c) - ord('a')] += 1
+        for c in t:
+            freq2[ord(c) - ord('a')] += 1
+        return freq1 == freq2
         
-        s_dict = string_to_dict(s)
-        t_dict = string_to_dict(t)
-
-        return s_dict == t_dict
