@@ -1,13 +1,26 @@
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
-        final = []
-        res = defaultdict(list)
-        for s in strs:
-            count = [0]*26
+        groups = {}
+        res = []
+        
+        def s_to_dict(s):
+            freq = {}
             for c in s:
-                count[ord(c)-ord('a')] = count[ord(c)-ord('a')] + 1
-            res[tuple(count)].append(s)
-        for key in res:
-            final.append(res[key])
-        return final
+                freq[c] = freq.get(c,0) + 1
+            return freq
+
+        for s in strs:
+            freq = s_to_dict(s)
+            sorted_tuple = tuple(sorted(freq.items())) 
+            if sorted_tuple in groups:
+                groups[sorted_tuple].append(s)
+            else:
+                groups[sorted_tuple] = [s]
+
+        print(groups)
+        for anagram in groups:
+            res.append(groups[anagram])
+        
+        return res
+
 
