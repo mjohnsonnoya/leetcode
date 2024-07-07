@@ -1,14 +1,17 @@
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
         res = []
-        def backTrack(l, r, s):
+        stack = []
+        def dfs(l, r):
             if l == r == n:
-                res.append(s)
-                return
+                res.append("".join(stack))
             if l < n:
-                backTrack(l + 1, r, s + '(')
-            if r < l:
-                backTrack(l, r + 1, s + ')')
-        backTrack(0,0,"")
+                stack.append('(')
+                dfs(l + 1, r)
+                stack.pop()
+            if l > r:
+                stack.append(')')
+                dfs(l, r + 1)
+                stack.pop()
+        dfs(0, 0)
         return res
-
