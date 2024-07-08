@@ -1,9 +1,9 @@
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
-        stack = []
         res = []
+        stack = []
         def dfs(i):
-            if i >= len(nums):
+            if i == len(nums):
                 res.append(stack.copy())
                 return
             stack.append(nums[i])
@@ -12,3 +12,5 @@ class Solution:
             dfs(i + 1)
         dfs(0)
         return res
+            
+
