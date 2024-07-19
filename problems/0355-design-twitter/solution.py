@@ -1,51 +1,42 @@
-import heapq
-from time import time
-
 class Twitter:
 
     def __init__(self):
-        self.following = defaultdict(set)
-        self.tweets = defaultdict(list)
-        self.timestamp = 0
-
+        self.tweetmap = defaultdict(list)
+        self.followingmap = defaultdict(set)
+        self.count = 0
     def postTweet(self, userId: int, tweetId: int) -> None:
-        if userId not in self.tweets:
-            self.tweets[userId] = []
-        self.tweets[userId].append((self.timestamp, tweetId))
-        self.timestamp -= 1  # Decrement to ensure the latest tweet has the smallest timestamp
+        self.tweetmap[userId].append((self.count, tweetId))
+        self.count -= 1
 
     def getNewsFeed(self, userId: int) -> List[int]:
+        minheap = []
         res = []
-        heap = []
-
-        self.following[userId].add(userId)
-        for followee in self.following[userId]:
-            if followee in self.tweets:
-                index = len(self.tweets[followee]) - 1
-                count, tweetId = self.tweets[followee][index]
-                heapq.heappush(heap, [count, tweetId, followee, index - 1])
-        while heap and len(res) < 10:
-            count, tweetId, followee, index = heapq.heappop(heap)
+        self.followingmap[userId].add(userId)
+        for followeeId in self.followingmap[userId]:
+            if followeeId in self.tweetmap:
+                index = len(self.tweetmap[followeeId]) - 1
+                count, tweetId = self.tweetmap[followeeId][index]
+                heapq.heappush(minheap, (count, tweetId, index - 1, followeeId))
+        while minheap and len(res) < 10:
+            count, tweetId, index, followeeId = heapq.heappop(minheap)
             res.append(tweetId)
             if index >= 0:
-                count, tweetId = self.tweets[followee][index]
-                heapq.heappush(heap,[count, tweetId, followee, index - 1])
+                count, tweetId = self.tweetmap[followeeId][index]
+                heapq.heappush(minheap, (count, tweetId, index - 1, followeeId))
         return res
 
+        
 
     def follow(self, followerId: int, followeeId: int) -> None:
-        if followerId not in self.following:
-            self.following[followerId] = set()
-        self.following[followerId].add(followeeId)
+        self.followingmap[followerId].add(followeeId)
 
     def unfollow(self, followerId: int, followeeId: int) -> None:
-        if followerId in self.following:
-            self.following[followerId].discard(followeeId)
+        self.followingmap[followerId].discard(followeeId)
+
 
 # Your Twitter object will be instantiated and called as such:
 # obj = Twitter()
-# obj.postTweet(userId, tweetId)
+# obj.postTweet(userId,tweetId)
 # param_2 = obj.getNewsFeed(userId)
-# obj.follow(followerId, followeeId)
-# obj.unfollow(followerId, followeeId)
-
+# obj.follow(followerId,followeeId)
+# obj.unfollow(followerId,followeeId)
