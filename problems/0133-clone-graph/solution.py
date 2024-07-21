@@ -7,25 +7,28 @@ class Node:
 """
 
 from typing import Optional
-from queue import Queue
 class Solution:
     def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
-        if not node:
-                return None
         mapping = {}
+        visited = set()
+        queue = collections.deque()
+        if not node:
+            return None
         
-        queueBFS = Queue()
-        queueBFS.put(node)
+        queue.append(node)
+        visited.add(node)
+        while queue:
+            x = queue.popleft()
+            mapping[x] = Node(x.val)
+            for neighbor in x.neighbors:
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    queue.append(neighbor)
         
-        mapping[node] = Node(node.val)
-        
-        while not queueBFS.empty():
-                
-                curr_node = queueBFS.get()
-                
-                for x in curr_node.neighbors:
-                        if x not in mapping:
-                                mapping[x] = Node(x.val)
-                                queueBFS.put(x)
-                        mapping[curr_node].neighbors.append(mapping[x])         
+        for key, val in mapping.items():
+            for neighbor in key.neighbors:
+                val.neighbors.append(mapping[neighbor])
+
+
+
         return mapping[node]
