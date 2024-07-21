@@ -9,16 +9,22 @@ class Node:
 
 class Solution:
     def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
-        hashmap = {None: None}
-        dummy1 = head
-        dummy2 = head
-        while dummy1:
-            hashmap[dummy1] = Node(dummy1.val)
-            dummy1 = dummy1.next
+        mapping = {}
+        g = head
+        h = head
+        if not head: return None
+        while g:
+            mapping[g] = Node(g.val)
+            g = g.next
+        while h:
+            if h.next:
+                mapping[h].next = mapping[h.next]
+            if h.random:
+                mapping[h].random = mapping[h.random]
+            h = h.next
+        return mapping[head]
+
         
-        while dummy2:
-            hashmap[dummy2].next = hashmap[dummy2.next]
-            hashmap[dummy2].random = hashmap[dummy2.random]
-            dummy2 = dummy2.next
+
         
-        return hashmap[head]
+
