@@ -1,12 +1,12 @@
 class Solution:
     def orangesRotting(self, grid: List[List[int]]) -> int:
         q = collections.deque()
+        fresh = 0
         rows = len(grid)
         cols = len(grid[0])
-        fresh = 0
         time = 0
-        directions = [(0,1), (0, -1), (1, 0), (-1, 0)]
-        
+        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+
         for y in range(rows):
             for x in range(cols):
                 if grid[y][x] == 2:
@@ -16,19 +16,18 @@ class Solution:
         
         while q and fresh > 0:
             for _ in range(len(q)):
-                x, y = q.popleft()
+                x,y = q.popleft()
                 for dx, dy in directions:
                     nx, ny = x + dx, y + dy
-                    if (nx < 0 or nx >= cols or
-                        ny < 0 or ny >= rows or
-                        grid[ny][nx] != 1):
-                        continue
-                    grid[ny][nx] = 2
-                    q.append((nx, ny))
-                    fresh -= 1
+                    if nx >= 0 and nx < cols and ny >= 0 and ny < rows and grid[ny][nx] == 1:
+                        grid[ny][nx] = 2
+                        fresh -= 1
+                        q.append((nx, ny))
             time += 1
-        return time if fresh == 0 else -1
+        
+        if fresh == 0:
+            return time
+        else:
+            return -1
                     
-
-
 
