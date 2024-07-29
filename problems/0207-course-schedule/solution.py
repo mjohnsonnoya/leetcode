@@ -1,31 +1,31 @@
-from typing import List
-
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         adjlist = [[] for _ in range(numCourses)]
-        for prerequisite in prerequisites:
-            adjlist[prerequisite[1]].append(prerequisite[0])
-
+        for prereq in prerequisites:
+            adjlist[prereq[1]].append(prereq[0])
+        
+        print(adjlist)
+        recstack = set()
         visited = set()
-        checked = set()
 
-        def dfs(i):
-            if i in visited:
+        def dfs(node):
+            if node in recstack:
                 return False
-            if i in checked:
+            if node in visited:
                 return True
-
-            visited.add(i)
-            for neighbor in adjlist[i]:
-                if not dfs(neighbor):
+            recstack.add(node)
+            for course in adjlist[node]:
+                if not dfs(course):
                     return False
-            visited.remove(i)
-            checked.add(i)
+            recstack.discard(node)
+            visited.add(node)
             return True
-
-        for i in range(numCourses):
-            if not dfs(i):
+        
+        for node in range(numCourses):
+            if not dfs(node):
                 return False
-
         return True
+            
+
+                
 
