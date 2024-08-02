@@ -9,26 +9,21 @@ class Node:
 from typing import Optional
 class Solution:
     def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
-        mapping = {}
-        visited = set()
-        queue = collections.deque()
-        if not node:
-            return None
-        
-        queue.append(node)
-        visited.add(node)
-        while queue:
-            x = queue.popleft()
-            mapping[x] = Node(x.val)
-            for neighbor in x.neighbors:
+        visited = {}
+        def dfs(i):
+            visited[i] = Node(i.val)
+            for neighbor in i.neighbors:
                 if neighbor not in visited:
-                    visited.add(neighbor)
-                    queue.append(neighbor)
-        
-        for key, val in mapping.items():
-            for neighbor in key.neighbors:
-                val.neighbors.append(mapping[neighbor])
+                    dfs(neighbor)
+        if node:
+            dfs(node)
+        else:
+            return node
+
+        for k, v in visited.items():
+            for neighbor in k.neighbors:
+                v.neighbors.append(visited[neighbor])
+
+        return visited[node]
 
 
-
-        return mapping[node]
