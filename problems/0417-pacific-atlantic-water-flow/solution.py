@@ -2,61 +2,51 @@ class Solution:
     def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
         rows = len(heights)
         cols = len(heights[0])
-        atlantic = set()
         pacific = set()
-        ans = []
-        directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
-        q = collections.deque()
-        visited = set()
-        for x in range(cols):
-            visited.add((x, rows - 1))
-            q.append((x, rows - 1))
+        atlantic = set()
+        directions = [(1, 0), (-1, 0), (0, -1), (0, 1)]
+
+        def bfs(queue, visited):
+            for x, y in visited:
+                queue.append((x, y))
+            while queue:
+                for _ in range(len(queue)):
+                    x, y = queue.popleft()
+                    visited.add((x, y))
+                    for dx, dy in directions:
+                        nx, ny = x + dx, y + dy
+                        if nx >= 0 and ny >= 0 and nx < cols and ny < rows and heights[ny][nx] >= heights[y][x] and (nx, ny) not in visited:
+                            visited.add((nx, ny))
+                            queue.append((nx, ny))
         
         for y in range(rows):
-            visited.add((cols - 1, y))
-            q.append((cols - 1, y))
+            pacific.add((0, y))
+            atlantic.add((cols - 1, y))
+
+        for x in range(cols):
+            pacific.add((x, 0))
+            atlantic.add((x, rows - 1))
         
-        while q:
-            for _ in range(len(q)):
-                x, y = q.popleft()
-                atlantic.add((x, y))
-                for dx, dy in directions:
-                    nx, ny = x + dx, y + dy
-                    if nx >= 0 and nx < cols and ny >= 0 and ny < rows and heights[ny][nx] >= heights[y][x] and (nx, ny) not in visited:
-                        visited.add((nx, ny))
-                        q.append((nx, ny))
+        queue = collections.deque()
 
-        visited = set()
 
-        print(pacific)
+
+        bfs(queue, atlantic)
+        bfs(queue, pacific)
+
         print(atlantic)
+        print(pacific)
 
-        for x in range(cols):
-            visited.add((x, 0))
-            q.append((x, 0))
-        
-        for y in range(rows):
-            visited.add((0, y))
-            q.append((0, y))
-
-        
-        while q:
-            for _ in range(len(q)):
-                x, y = q.popleft()
-                pacific.add((x, y))
-                for dx, dy in directions:
-                    nx, ny = x + dx, y + dy
-                    if nx >= 0 and nx < cols and ny >= 0 and ny < rows and heights[ny][nx] >= heights[y][x] and (nx, ny) not in visited:
-                        visited.add((nx, ny))
-                        q.append((nx, ny))
         ans = []
-        for y in range(rows):
-            for x in range(cols):
-                if (x, y) in pacific and (x, y) in atlantic:
-                    ans.append([y, x])
-    
 
+        for x, y in atlantic:
+            if (x, y) in pacific:
+                ans.append([y, x])
         return ans
-    
-        
+
+
+
+
+
+
 
