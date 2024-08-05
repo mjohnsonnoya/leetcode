@@ -5,29 +5,28 @@ class Solution:
             adjlist[prereq[1]].append(prereq[0])
 
         visited = [0] * numCourses
-        cycle = [False]
         stack = []
-        def dfs(node):
-            if visited[node] == 1:
-                 cycle[0] = True
-                 return
-            if visited[node] == 2:
-                return
-
-            visited[node] = 1
-            for course in adjlist[node]:
-                dfs(course)
-                if cycle[0]:
-                    return
-            
-            visited[node] = 2
-            stack.append(node)
-            return
-
+        def dfs(i):
+            if visited[i] == 1:
+                return False
+            if visited[i] == 2:
+                return True
+            visited[i] = 1
+            for course in adjlist[i]:
+                 if not dfs(course):
+                    return False
+            visited[i] = 2
+            stack.append(i)
+            return True
+        
         for i in range(numCourses):
-            dfs(i)
-            if cycle[0]:
-                return []
+            if visited[i] == 0:
+                if not dfs(i):
+                    return []
         
         return stack[::-1]
+                
+            
 
+
+        
