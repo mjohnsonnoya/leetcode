@@ -3,30 +3,27 @@ class Solution:
         adjlist = [[] for _ in range(numCourses)]
         for prereq in prerequisites:
             adjlist[prereq[1]].append(prereq[0])
-
-        visited = [0] * numCourses
+        
         stack = []
-        def dfs(i):
-            if visited[i] == 1:
+        visited = [0] * numCourses
+
+        def dfs(node):
+            if visited[node] == 1:
                 return False
-            if visited[i] == 2:
+            if visited[node] == 2:
                 return True
-            visited[i] = 1
-            for course in adjlist[i]:
-                 if not dfs(course):
+            visited[node] = 1
+            for course in adjlist[node]:
+                if not dfs(course):
                     return False
-            visited[i] = 2
-            stack.append(i)
+            visited[node] = 2
+            stack.append(node)
             return True
         
         for i in range(numCourses):
-            if visited[i] == 0:
-                if not dfs(i):
-                    return []
-        
+            if visited[i] == 2:
+                continue
+            if not dfs(i):
+                return []
+
         return stack[::-1]
-                
-            
-
-
-        
