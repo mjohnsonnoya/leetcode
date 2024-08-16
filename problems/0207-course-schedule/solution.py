@@ -1,34 +1,32 @@
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         adjlist = [[] for _ in range(numCourses)]
-
-        for prereq in prerequisites:
-            adjlist[prereq[1]].append(prereq[0])
         
+        for prereq in prerequisites:
+            adjlist[prereq[0]].append(prereq[1])
+
         visited = [0] * numCourses
-        cycle = [False]
+        # cycle = [False]
 
-        def dfs(i):
-            if i in stack:
-                print("i: ", i)
-                print("stack: ", stack)
-                cycle[0] = True
-                return
-            if visited[i] == 1:
-                return
-            stack.add(i)
-            for course in adjlist[i]:
-                dfs(course)
-                if cycle[0]:
-                    return
-            stack.discard(i)
-            visited[i] = 1
-
+        def dfs(course):
+            if visited[course] == 2:
+                return True
+            if visited[course] == 1:
+                # cycle[0] = True
+                return False
+            
+            visited[course] = 1
+            for c in adjlist[course]:
+                if not dfs(c):
+                    return False
+            
+            visited[course] = 2
+            return True
+        
         for i in range(numCourses):
-            stack = set()
-            dfs(i)
-            if cycle[0]:
+            if not dfs(i):
                 return False
         
         return True
+
 
