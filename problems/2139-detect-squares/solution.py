@@ -2,28 +2,23 @@ class DetectSquares:
 
     def __init__(self):
         self.counts = {}
-        self.points = []
         
-
     def add(self, point: List[int]) -> None:
-        self.points.append(tuple(point))
         if tuple(point) in self.counts:
             self.counts[tuple(point)] += 1
         else:
             self.counts[tuple(point)] = 1
-        
 
     def count(self, point: List[int]) -> int:
-        px, py = point
         ans = 0
-        for x, y in self.points:
-            if ((px - x)**2  == (py - y)**2) and (px != x and py != y):
-                if (px, y) in self.counts and (x, py) in self.counts:
-                    ans += self.counts[(px, y)] * self.counts[(x, py)]
-        
+        for key, val in self.counts.items():
+            if (((key[1] - point[1])**2) == ((key[0] - point[0])**2) and (key[1] != point[1]) and (key[0] != point[0])):
+
+                if (key[0], point[1]) in self.counts and (point[0], key[1]) in self.counts:
+                    ans += val * self.counts[(key[0], point[1])] * self.counts[(point[0], key[1])]
         return ans
 
-
+        
 
 
 # Your DetectSquares object will be instantiated and called as such:
