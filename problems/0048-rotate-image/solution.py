@@ -3,31 +3,21 @@ class Solution:
         """
         Do not return anything, modify matrix in-place instead.
         """
-        n = len(matrix)
-        l, r = 0, n - 1
-
-
+        l, r = 0, len(matrix) - 1
         while l < r:
+            top, bottom = l, r
+            left, right = l, r
+
             for i in range(r - l):
-                top, bottom = l, r
-                topright = matrix[top][l + i]
-
-                matrix[top][l + i] = matrix[bottom - i][l]
-
-                matrix[bottom - i][l] = matrix[bottom][r - i]
+                topleft = matrix[top][left + i]
                 
-                matrix[bottom][r - i] = matrix[top + i][r]
+                matrix[top][left + i] = matrix[bottom - i][left]
 
-                matrix[top + i][r] = topright
+                matrix[bottom - i][left] = matrix[bottom][right - i]
 
+                matrix[bottom][right - i] = matrix[top + i][right]
+
+                matrix[top + i][right] = topleft
             l += 1
             r -= 1
-        
-                
 
-
-
-
-            
-
-        
