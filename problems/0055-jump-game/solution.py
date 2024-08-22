@@ -5,11 +5,5 @@ class Solution:
             if i > farthest:
                 return False
             farthest = max(farthest, i + nums[i])
-            if farthest >= len(nums) - 1:
-                return True
-        return True
 
-
-
-
-
+        return farthest >= len(nums) - 1
