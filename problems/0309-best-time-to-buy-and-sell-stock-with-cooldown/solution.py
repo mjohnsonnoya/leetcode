@@ -1,21 +1,22 @@
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
-        dp = {}
-        
-        def dfs(i, state):
-            if i >= len(prices):
+        cache = {}
+        n = len(prices) - 1
+
+        def helper(i, state):
+            if i > n:
                 return 0
-            if (i, state) in dp:
-                return dp[(i,state)]
+
+            if (i, state) in cache:
+                return cache[(i, state)]
             
-            cooldown = dfs(i + 1, state)
             if state:
-                buying = dfs(i + 1, not state) - prices[i]
-                dp[(i, state)] = max(buying, cooldown)
-                
+                ans = max(helper(i + 1, not state) - prices[i], helper(i + 1, state))
+                cache[(i, state)] = ans
+                return ans
             else:
-                selling = dfs(i + 2, not state) + prices[i]
-                dp[(i,state)] = max(selling, cooldown)
-                
-            return dp[(i,state)]
-        return dfs(0, True)
+                ans = max(helper(i + 2, not state) + prices[i], helper(i + 1, state))
+                cache[(i, state)] = ans
+                return ans
+        
+        return helper(0, True)
