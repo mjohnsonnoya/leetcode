@@ -1,25 +1,36 @@
 class Solution:
     def exist(self, board: List[List[str]], word: str) -> bool:
-        directions = [(1,0), (-1, 0), (0, 1), (0, -1)]
-
-        def dfs(i, j , index):
-            if i >= len(board[0]) or i < 0 or j >= len(board) or j < 0 or board[j][i] != word[index]:
-                return False
-            if index == len(word) - 1:
+        rows = len(board)
+        cols = len(board[0])
+        visited = set()
+        seen = set()
+        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        def dfs(x, y, i):
+            if i == len(word):
                 return True
-            temp = board[j][i]
-            board[j][i] = '#'
+            
+            if not(0 <= x < cols and 0 <= y < rows and board[y][x] == word[i] and (x, y) not in visited):
+                return False
+
+            visited.add((x, y))
+
             for dx, dy in directions:
-                if dfs(i + dx, j + dy, index + 1):
+                nx, ny = x + dx, y + dy
+                if dfs(nx, ny, i + 1):
                     return True
-            board[j][i] = temp
+
+            visited.discard((x, y))
             return False
 
-        
 
-        for y in range(len(board)):
-            for x in range(len(board[y])):
-                if dfs(x,y,0):
-                    return True
+            
+
+        for row in range(rows):
+            for col in range(cols):
+                if board[row][col] == word[0]:
+                    visited = set()
+                    if dfs(col, row, 0):
+                        return True
+            
         return False
-                
+    
