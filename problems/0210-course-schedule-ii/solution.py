@@ -1,29 +1,36 @@
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
-        adjlist = [[] for _ in range(numCourses)]
-        for prereq in prerequisites:
-            adjlist[prereq[1]].append(prereq[0])
-        
-        stack = []
+        adjlist = defaultdict(list)
+        for a, b in prerequisites:
+            adjlist[a].append(b)
+    
+        path = []
         visited = [0] * numCourses
-
-        def dfs(node):
-            if visited[node] == 1:
+        def dfs(course):
+            if visited[course] == 1:
                 return False
-            if visited[node] == 2:
+            if visited[course] == 2:
                 return True
-            visited[node] = 1
-            for course in adjlist[node]:
-                if not dfs(course):
+
+            visited[course] = 1
+            for i in range(len(adjlist[course])):
+                if not dfs(adjlist[course][i]):
                     return False
-            visited[node] = 2
-            stack.append(node)
+
+            visited[course] = 2
+            path.append(course)
             return True
+
+
         
         for i in range(numCourses):
-            if visited[i] == 2:
-                continue
             if not dfs(i):
                 return []
+        return path
+            
+            
+            
 
-        return stack[::-1]
+
+
+            
