@@ -1,22 +1,17 @@
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
-        candidates.sort()
-        stack = []
         res = []
-        def dfs(i, total):
-            if i >= len(candidates):
+        def dfs(i, ans, total):
+            if total > target or i >= len(candidates):
                 return
             if total == target:
-                res.append(stack.copy())
+                res.append(ans.copy())
                 return
-            if total + candidates[i] > target:
-                return
-            stack.append(candidates[i])
-            dfs(i, total + candidates[i])
-            stack.pop()
-            dfs(i + 1, total)
-        dfs(0, 0)
+            ans.append(candidates[i])
+            dfs(i, ans, total + candidates[i])
+            ans.pop()
+            dfs(i + 1, ans, total)
+        
+        dfs(0, [], 0)
         return res
             
-            
-
