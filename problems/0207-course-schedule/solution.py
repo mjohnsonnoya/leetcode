@@ -1,32 +1,30 @@
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         adjlist = [[] for _ in range(numCourses)]
-        
         for prereq in prerequisites:
-            adjlist[prereq[0]].append(prereq[1])
-
+            adjlist[prereq[1]].append(prereq[0])
+        
         visited = [0] * numCourses
-        # cycle = [False]
 
         def dfs(course):
+            # nonlocal visited
+            if visited[course] == 1:
+                return False
             if visited[course] == 2:
                 return True
-            if visited[course] == 1:
-                # cycle[0] = True
-                return False
             
             visited[course] = 1
-            for c in adjlist[course]:
-                if not dfs(c):
+            for node in adjlist[course]:
+                if not dfs(node):
                     return False
             
             visited[course] = 2
             return True
         
-        for i in range(numCourses):
-            if not dfs(i):
+        for node in range(numCourses):
+            if visited[node] == 2:
+                continue
+            if not dfs(node):
                 return False
-        
+            
         return True
-
-
