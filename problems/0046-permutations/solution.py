@@ -1,16 +1,16 @@
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
-        stack = []
-        res = []
-        def dfs(nums):
+        ans = []
+        def helper(res, nums):
             if not nums:
-                res.append(stack.copy())
-                return
-            for i in range(len(nums)):
-                stack.append(nums[i])
-                dfs(nums[:i] + nums[i+1:])
-                stack.pop()
-        dfs(nums)
-        return res
-            
+                ans.append(res.copy(
+                    
+                ))
+            for idx in range(len(nums)):
+                res.append(nums[idx])
+                helper(res, nums[:idx] + nums[idx + 1:])
+                res.pop()
+        
+        helper([], nums)
+        return ans
 
