@@ -12,8 +12,6 @@ class Solution:
                 s2_list[ord(char) - ord('a')] += 1
         
         while r < len(s2):
-            print(s1_list)
-            print(s2_list)
             if s1_list == s2_list:
                 return True
             else:
