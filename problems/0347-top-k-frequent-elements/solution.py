@@ -1,21 +1,24 @@
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        freq = {}
-        ans = []
+        freq = [[] for i in range(len(nums) + 1)]
+        count = {}
         for num in nums:
-            freq[num] = freq.get(num, 0) + 1
-
-        counts = [[] for _ in range(len(nums) + 1)]
-
-        for llave in freq:
-            counts[freq[llave]].append(llave)
+            if num not in count:
+                count[num] = 0
+            count[num] += 1
         
-        for i in range(len(counts) - 1, 0, -1):
-            if counts[i]:
-                for num in counts[i]:
-                    ans.append(num)
-                    if len(ans) == k:
-                        return ans
+        for key, val in count.items():
+            freq[val].append(key)
         
-        return ans
-                
+        ans = []
+        for i in range(len(freq) - 1, -1, -1):
+            for num in freq[i]:
+                ans.append(num)
+                k -= 1
+            if k <= 0:
+                return ans
+            
+
+
+
+        
