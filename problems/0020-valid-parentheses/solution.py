@@ -1,14 +1,13 @@
 class Solution:
     def isValid(self, s: str) -> bool:
-        equiv = {'(': ')', '{': '}', '[': ']'}
         stack = []
-        for c in s:
-            if not stack:
-                stack.append(c)
-            elif stack[-1] in equiv and equiv[stack[-1]] == c:
+        parentheses = {'{': '}', '[': ']', '(': ')'}
+        for char in s:
+            if char in parentheses:
+                stack.append(char)
+            elif stack and parentheses[stack[-1]] == char:
                 stack.pop()
             else:
-                stack.append(c)
-        
-        return not stack
-            
+                return False
+        return len(stack) == 0
+
