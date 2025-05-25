@@ -1,22 +1,26 @@
 class Solution:
     def floodFill(self, image: List[List[int]], sr: int, sc: int, color: int) -> List[List[int]]:
+        m = len(image)
+        n = len(image[0])
+
+        def BFS(sr, sc):
+            queue = deque()
+            queue.append((sr, sc))
+            original = image[sr][sc]
+            directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+            while queue:
+                r, c = queue.popleft()
+                image[r][c] = color
+                for dr, dc in directions:
+                    nr, nc = r + dr, c + dc
+                    if 0 <= nr < m and 0 <= nc < n and image[nr][nc] == original:
+                        queue.append((nr, nc))
         if image[sr][sc] == color:
             return image
-        m, n = len(image) - 1, len(image[0]) - 1
-        oldColor = image[sr][sc]
-        def helper(sr,sc,color):
-            image[sr][sc] = color
-            if sc < n:
-                if image[sr][sc + 1] == oldColor:
-                    helper(sr,sc+1, color)
-            if sc > 0:
-                if image[sr][sc - 1] == oldColor:
-                    helper(sr,sc-1, color)
-            if sr < m:
-                if image[sr+1][sc] == oldColor:
-                    helper(sr+1,sc, color) 
-            if sr > 0:
-                if image[sr-1][sc] == oldColor:
-                    helper(sr-1,sc, color) 
-        helper(sr,sc,color)
+        BFS(sr, sc)
         return image
+
+
+
+
+
