@@ -1,11 +1,11 @@
 class Solution:
     def canConstruct(self, ransomNote: str, magazine: str) -> bool:
-        char_freq = {}
-        for char in magazine:
-            char_freq[char] = char_freq.get(char, 0) + 1
-          
-        for char in ransomNote:
-          char_freq[char] = char_freq.get(char, 0) - 1
-          if char_freq[char] < 0:
-            return False
+        mag_count = defaultdict(int)
+        for c in magazine:
+            mag_count[c] += 1
+        for c in ransomNote:
+            mag_count[c] -= 1
+            if mag_count[c] < 0:
+                return False
+    
         return True
