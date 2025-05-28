@@ -7,6 +7,7 @@ class MyQueue:
 
     def push(self, x: int) -> None:
         self.stackin.append(x)
+        
 
     def pop(self) -> int:
         if not self.stackout:
@@ -20,13 +21,10 @@ class MyQueue:
             while self.stackin:
                 self.stackout.append(self.stackin.pop())
         return self.stackout[-1]
-            
+        
 
     def empty(self) -> bool:
-        if not self.stackin and not self.stackout:
-            return True
-        else:
-            return False
+        return not self.stackin and not self.stackout
         
 
 
