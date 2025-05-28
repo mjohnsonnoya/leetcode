@@ -1,13 +1,17 @@
 class Solution:
     def climbStairs(self, n: int) -> int:
-        first, second = 1, 2
-        if n == 1:
-            return 1
-        for _ in range(2, n):
-            tmp = second
-            second = second + first
-            first = tmp
+        dp = {}
+        def calculate_fibonacci(n):
+            if n == 1:
+                return 1
+            if n == 2:
+                return 2
+            
+            if n in dp:
+                return dp[n]
+            
+            dp[n] = calculate_fibonacci(n - 1) + calculate_fibonacci(n - 2)
+            return dp[n]
         
-        return second
-
+        return calculate_fibonacci(n)
 
