@@ -1,13 +1,18 @@
 class Solution:
     def majorityElement(self, nums: List[int]) -> int:
-        maxfreq = 0
-        maxelem = None
-        freqdict = {}
-        for i in nums:
-                freqdict[i] = freqdict.get(i,0) + 1
-                if freqdict[i] > maxfreq:
-                        maxfreq = freqdict[i]
-                        maxelem = i
-        return maxelem
-                
+        n = len(nums)
+        curr = nums[0]
+        val = 1
+        for i in range(1, len(nums)):
+            if val > 0:
+                if nums[i] == curr:
+                    val += 1
+                else:
+                    val -= 1
+            else:
+                curr = nums[i]
+                val = 1
         
+        return curr
+        
+
