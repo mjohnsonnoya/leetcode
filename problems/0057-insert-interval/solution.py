@@ -1,15 +1,24 @@
 class Solution:
     def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
-        ans = []
-        i = 0
-        while i < len(intervals) and intervals[i][1] < newInterval[0]:
-            ans.append(intervals[i])
-            i += 1
+        # new interval
+        # for each interval before that doesn't overlap with nI_start add it.
+        # if overlap add keep iterating over all the intervals that overlap and return min start of all the intervals and max start
+        # add all the intervals that don't overlap
         
-        for i in range(i, len(intervals)):
-            if not (newInterval[0] > intervals[i][1] or newInterval[1] < intervals[i][0]):
-                newInterval = [min(intervals[i][0], newInterval[0]), max(intervals[i][1], newInterval[1])]
+        newIntervals = []
+        for i, interval in enumerate(intervals):
+            if interval[1] < newInterval[0]:
+                newIntervals.append(interval)
+            elif interval[0] > newInterval[1]:
+                newIntervals.append(newInterval)
+                return newIntervals + intervals[i:]
             else:
-                return ans + [newInterval] + intervals[i:]
+                newInterval = [min(newInterval[0], interval[0]), max(newInterval[1], interval[1])]
+        
+        newIntervals.append(newInterval)
+        return newIntervals
 
-        return ans + [newInterval]
+
+            
+
+
