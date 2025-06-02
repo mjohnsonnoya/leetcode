@@ -1,30 +1,28 @@
-# from queue import Queue
-import queue
 class Solution:
     def updateMatrix(self, mat: List[List[int]]) -> List[List[int]]:
-        m, n = len(mat),len(mat[0])
-        # maxdist = m*n
-        res = [[float('inf') for _ in range(n)] for _ in range(m)]
-        graphq = queue.Queue()
+        q = deque()
+        visited = set()
+        numrows, numcols = len(mat), len(mat[0])
+        for r in range(numrows):
+            for c in range(numcols):
+                if mat[r][c] == 0:
+                    visited.add((r, c))
+                    q.append((r, c))
+
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+
+        val = 0
+        while q:
+            m = len(q)
+            for _ in range(m):
+                r,c = q.popleft()
+                mat[r][c] = val
+                for dr, dc in directions:
+                    nr, nc = r + dr, c + dc
+                    if 0 <= nr < numrows and 0 <= nc < numcols and (nr, nc) not in visited:
+                        visited.add((nr, nc))
+                        q.append((nr, nc))
+            val += 1
         
-        for i in range(m):
-            for j in range(n):
-                if mat[i][j] == 0:
-                    res[i][j] = 0
-                    graphq.put((i,j))
-                    
-        while not graphq.empty():
-            i,j = graphq.get()
-            if i < m-1 and 1 + res[i][j] < res[i+1][j]:
-                res[i+1][j] = 1 + res[i][j]
-                graphq.put((i+1,j))
-            if i > 0 and 1 + res[i][j] < res[i - 1][j]:
-                res[i - 1][j] = 1 + res[i][j]
-                graphq.put((i - 1, j))
-            if j < n - 1 and 1 + res[i][j] < res[i][j + 1]:
-                res[i][j + 1] = 1 + res[i][j]
-                graphq.put((i, j + 1))
-            if j > 0 and 1 + res[i][j] < res[i][j - 1]:
-                res[i][j - 1] = 1 + res[i][j]
-                graphq.put((i, j - 1))
-        return res 
+        return mat
+
