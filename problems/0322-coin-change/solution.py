@@ -1,23 +1,12 @@
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
-        dp = {}
-        def helper(i):
-            if i == 0:
-                return 0
-            if i < 0:
-                return float('inf')
-            if i in dp:
-                return dp[i]
-            ans = float('inf')
-            for c in coins:
-                ans = min(ans, 1 + helper(i - c))
+        dp = [float('inf')] * (amount + 1)
+        dp[0] = 0
+        for i in range(1, amount + 1):
+            for coin in coins:
+                if i - coin >= 0:
+                    dp[i] = min(dp[i], 1 + dp[i - coin])
+        
 
-            dp[i] = ans
-            return ans
-        val = helper(amount)
-        if val > 10**4:
-            print("this is val: ", val)
-            return -1
-        else:
-            return val
+        return dp[-1] if dp[-1] < float('inf') else -1
 
