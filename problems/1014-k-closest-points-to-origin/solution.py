@@ -1,6 +1,10 @@
 class Solution:
     def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
         heap = []
-        for point in points:
-            heapq.heappush(heap, point)
-        return heapq.nlargest(k, heap, key=lambda point: -(point[0]**2 + point[1]**2))
+        for x, y in points:
+            heapq.heappush(heap, (-(x**2 + y**2), [x, y]))
+            if len(heap) > k:
+                heapq.heappop(heap)
+        
+        return [point for _ , point in heap]
+
