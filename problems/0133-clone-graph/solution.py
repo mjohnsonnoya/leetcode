@@ -11,19 +11,19 @@ class Solution:
     def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
         if not node:
             return None
-        nodes = {node: Node(val=node.val)}
-        q = deque([node])
+        mapping = {}
+        q = deque([])
+        q.append(node)
         while q:
             vertex = q.popleft()
-            nodes[vertex] = Node(val=vertex.val)
+            mapping[vertex] = Node(val = vertex.val)
+
             for neighbor in vertex.neighbors:
-                if neighbor not in nodes:
+                if neighbor not in mapping:
                     q.append(neighbor)
         
-        for key, val in nodes.items():
-            for neighbor in key.neighbors:
-                val.neighbors.append(nodes[neighbor])
+        for key in mapping.keys():
+            mapping[key].neighbors = [mapping[neighbor] for neighbor in key.neighbors]
         
-        return nodes[node]
-
-
+        return mapping[node]
+        
