@@ -9,35 +9,23 @@ class Solution:
         for course in range(numCourses):
             if state[course] != 0:
                 continue
-            
-            stack = []
-            path = set()
-            stack.append(course)
-
+            stack = [(course, 0)]
             while stack:
-                curr = stack[-1]
-                if state[curr] == 2:
-                    stack.pop()
-                    continue
-
-                if curr in path:
-                    stack.pop()
-                    state[curr] = 2
-                    path.remove(curr)
-                    continue
-                
-                path.add(curr)
-                has_unvisited = False
-                for neighbor in adjlist[curr]:
-                    if state[neighbor] == 1 or neighbor in path:
+                node, phase = stack.pop()
+                if phase == 0:
+                    if state[node] == 1:
                         return False
-                    if state[neighbor] == 0:
-                        stack.append(neighbor)
-                        has_unvisited = True
-                
-                if not has_unvisited:
-                    stack.pop()
-                    state[curr] = 2
-                    path.remove(curr)
-            
+                    if state[node] == 2:
+                        continue
+                    state[node] = 1
+                    stack.append((node, 1))
+                    for nei in adjlist[node]:
+                        stack.append((nei, 0))
+                else: 
+                    state[node] = 2
+        
         return True
+            
+
+
+
