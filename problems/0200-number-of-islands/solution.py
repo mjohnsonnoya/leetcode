@@ -1,24 +1,28 @@
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
-        rows, cols = len(grid), len(grid[0])
-        count = 0
-        directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
-        def dfs(col, row):
-            if (0 <= col < cols and 0 <= row < rows and grid[row][col] != "0"):
-                grid[row][col] = "0"
-                for dx, dy in directions:
-                    dfs(col + dx, row + dy)
-            return
-            
-        
-        for row in range(rows):
-            for col in range(cols):
-                if grid[row][col] == "1":
-                    count += 1
-                    dfs(col, row)
-        return count
+        m, n = len(grid), len(grid[0])
 
-            
-            
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
+        num_islands = 0
+
+        for row in range(m):
+            for col in range(n):
+                if grid[row][col] == "0":
+                    continue
+                else:
+                    num_islands += 1
+                    q = deque()
+                    q.append((row, col))
+                    grid[row][col] = "0"
+                    while q:
+                        r, c = q.popleft()
+                        for dr, dc in directions:
+                            nr, nc = r + dr, c + dc
+                            if (0 <= nr < m) and (0 <= nc < n) and grid[nr][nc] == "1":
+                                q.append((nr, nc))
+                                grid[nr][nc] = "0"
+
+        return num_islands
+                
 
