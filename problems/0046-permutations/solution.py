@@ -1,16 +1,21 @@
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
+        n = len(nums)
         ans = []
-        def helper(res, nums):
-            if not nums:
-                ans.append(res.copy(
-                    
-                ))
-            for idx in range(len(nums)):
-                res.append(nums[idx])
-                helper(res, nums[:idx] + nums[idx + 1:])
-                res.pop()
+
+        if n == 1:
+            return [nums]
         
-        helper([], nums)
+        for i in range(len(nums)):
+            perms = [[nums[i]] + end for end in self.permute(nums[0:i] + nums[i + 1:])]
+            ans.extend(perms)
+
         return ans
 
+            
+        
+
+
+        
+
+        
