@@ -1,42 +1,42 @@
-class TreeNode:
-    def __init__(self, val = "", children = None):
-        self.val = val
-        self.children = {} if children is None else children
-        self.wordend = False
+class TrieNode:
+    def __init__(self):
+        self.children = {}       # maps char -> TrieNode
+        self.is_end_of_word = False  # marks if a word ends here
 
 class Trie:
+
     def __init__(self):
-        self.root = TreeNode()
+        self.root = TrieNode()
+        
 
     def insert(self, word: str) -> None:
-        curr = self.root
-        for i in range(len(word)):
-            if word[i] not in curr.children:
-                curr.children[word[i]] = TreeNode(val = word[i])
-            curr = curr.children[word[i]]
-        curr.wordend = True
+        node = self.root
+        for ch in word:
+            if ch not in node.children:
+                node.children[ch] = TrieNode()
+            node = node.children[ch]
+        node.is_end_of_word = True
+
+        
 
     def search(self, word: str) -> bool:
-        curr = self.root
-        for i in range(len(word)):
-            if word[i] in curr.children:
-                curr = curr.children[word[i]]
-            else:
+        node = self.root
+        for ch in word:
+            if ch not in node.children:
                 return False
+            node = node.children[ch]
+        return node.is_end_of_word
         
-        return curr.wordend
-            
 
     def startsWith(self, prefix: str) -> bool:
-        curr = self.root
-        print(curr.children)
-        for i in range(len(prefix)):
-            if prefix[i] in curr.children:
-                curr = curr.children[prefix[i]]
-            else:
+        node = self.root
+        for ch in prefix:
+            if ch not in node.children:
                 return False
-
+            node = node.children[ch]
         return True
+        
+
 
 # Your Trie object will be instantiated and called as such:
 # obj = Trie()
