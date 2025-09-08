@@ -1,31 +1,31 @@
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        adjlist = [[] for _ in range(numCourses)]
+        adj = [[] for _ in range(numCourses)]
         for prereq in prerequisites:
-            adjlist[prereq[0]].append(prereq[1])
+            adj[prereq[0]].append(prereq[1])
         
-        state = [0] * numCourses
+        state = [0] * numCourses  # 0 = unvisited, 1 = visiting, 2 = visited
 
         for course in range(numCourses):
-            if state[course] != 0:
-                continue
+            if state[course] != 0:  
+                continue  # already processed
+            
             stack = [(course, 0)]
             while stack:
-                node, phase = stack.pop()
+                node, phase = stack[-1]
+
                 if phase == 0:
-                    if state[node] == 1:
-                        return False
-                    if state[node] == 2:
-                        continue
                     state[node] = 1
-                    stack.append((node, 1))
-                    for nei in adjlist[node]:
-                        stack.append((nei, 0))
-                else: 
+                    stack[-1] = (node, 1)
+                    for nei in adj[node]:
+                        if state[nei] == 1:
+                            return False  # cycle
+                        if state[nei] == 0:
+                            stack.append((nei, 0))
+
+                else:  # exit phase
                     state[node] = 2
-        
+                    stack.pop()
+
         return True
-            
-
-
 
