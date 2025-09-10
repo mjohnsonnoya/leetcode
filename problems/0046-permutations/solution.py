@@ -1,11 +1,22 @@
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
-        if not nums:              # base case
-            return [[]]
+        n = len(nums)
+        used = [False] * n
         ans = []
-        for i in range(len(nums)):
-            perms = [[nums[i]] + end for end in self.permute(nums[:i] + nums[i+1:])]
-            ans.extend(perms)
-        
+        path = []
+        def dfs():
+            if len(path) == n:
+                ans.append(path[:])
+            else:
+                for i in range(len(used)):
+                    if not used[i]:
+                        path.append(nums[i])
+                        used[i] = True
+                        dfs()
+                        used[i] = False
+                        path.pop()
+        dfs()
         return ans
+            
+
         
