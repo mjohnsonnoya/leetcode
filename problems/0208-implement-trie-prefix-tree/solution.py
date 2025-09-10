@@ -1,7 +1,7 @@
 class TrieNode:
     def __init__(self):
-        self.children = {}       # maps char -> TrieNode
-        self.is_end_of_word = False  # marks if a word ends here
+        self.children = {}
+        self.endOfWord = False
 
 class Trie:
 
@@ -15,8 +15,8 @@ class Trie:
             if ch not in node.children:
                 node.children[ch] = TrieNode()
             node = node.children[ch]
-        node.is_end_of_word = True
-
+        
+        node.endOfWord = True
         
 
     def search(self, word: str) -> bool:
@@ -24,8 +24,10 @@ class Trie:
         for ch in word:
             if ch not in node.children:
                 return False
-            node = node.children[ch]
-        return node.is_end_of_word
+            else:
+                node = node.children[ch]
+        
+        return node.endOfWord
         
 
     def startsWith(self, prefix: str) -> bool:
@@ -33,7 +35,9 @@ class Trie:
         for ch in prefix:
             if ch not in node.children:
                 return False
-            node = node.children[ch]
+            else:
+                node = node.children[ch]
+        
         return True
         
 
