@@ -1,25 +1,26 @@
+#include <unordered_map>
+#include <stack>
+#include <string>
 class Solution {
 public:
     bool isValid(string s) {
-        std::unordered_map<char,char> m{{'}','{'}, {')','('}, {']','['}};
-
-
-        std::deque<char> q;
-        auto it = s.begin();
-        while (it != s.end()){
-            if (q.empty()) {
-                q.push_back(*it);
+        std::unordered_map<char, char> m = {
+            {')', '('},
+            {']', '['},
+            {'}', '{'}
+        };
+        std::stack<char> st;
+        for (char& c : s) {
+            if (c == '(' || c == '[' || c == '{') {
+                st.push(c);
             }
-            else { 
-            if (auto search = m.find(*it); search != m.end() && search->second == q.back()) {
-                q.pop_back();
-            }else {
-            q.push_back(*it);
+            else {
+                if (st.empty() || st.top() != m[c]) {
+                    return false;
+                }
+                st.pop();
             }
-            }
-            ++it;
-
         }
-        return q.empty();
+        return st.empty();
     }
 };
