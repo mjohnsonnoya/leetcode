@@ -10,26 +10,21 @@
  */
 class Solution {
 public:
-    ListNode* mergeTwoLists(ListNode* a, ListNode* b) {
-        // handles empties up front
-        if (!a) return b;
-        if (!b) return a;
-
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
         ListNode dummy;
         ListNode* tail = &dummy;
 
-        while (a && b) {
-            if(a->val <= b->val) {
-                tail->next = a;
-                a = a->next;
+        while (list1 && list2) {
+            if (list1->val <= list2->val) {
+                tail->next = list1;
+                list1 = list1->next;
             } else {
-                tail->next = b;
-                b = b->next;
+                tail->next = list2;
+                list2 = list2->next;
             }
             tail = tail->next;
         }
-
-        tail->next = (a ? a : b);
+        tail->next = list1? list1 : list2;
         return dummy.next;
     }
 };
