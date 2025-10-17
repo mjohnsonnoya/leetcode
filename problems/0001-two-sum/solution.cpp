@@ -1,14 +1,20 @@
+#include <vector>
+#include <unordered_map>
+
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-        std::map<int, int> visited = {};
-        for (int i = 0; i < nums.size(); i++) {
-            int res = target - nums[i];
-            if (visited.contains(res)) {
-                return vector<int>{i, visited[res]};
+        std::unordered_map<int, int> res;
+        for (size_t i = 0; i < nums.size(); ++i) {
+            int num = nums[i];
+            int diff = target - num;
+            if (res.contains(diff)) {
+                return {res[diff], static_cast<int>(i)};
             }
-            else visited[nums[i]] = i;
+            else {
+                res[num] = static_cast<int>(i);
+            }
         }
-        return vector<int>{0, 0};
+        return {};
     }
 };
