@@ -1,59 +1,47 @@
 function isValidSudoku(board: string[][]): boolean {
     const nrows = board.length;
     const ncols = board[0].length;
-
-    // Check rows
-    for (const row of board) {
+    
+     // check rows
+    for (let row = 0; row < nrows; row++){
         const seen = new Set<string>();
-
-        for (const value of row) {
-            if (value === ".") continue;
-
-            if (seen.has(value)) {
+        for (let col = 0; col < ncols; col++){
+            const val = board[row][col];
+            if (val !== '.' && seen.has(val)) {
                 return false;
             }
-
-            seen.add(value);
+            seen.add(val);
         }
+        
     }
-
-    // Check columns
-    for (let col = 0; col < ncols; col++) {
+    
+    // check cols
+    for (let col = 0; col < ncols; col++){
         const seen = new Set<string>();
-
-        for (let row = 0; row < nrows; row++) {
-            const value = board[row][col];
-
-            if (value === ".") continue;
-
-            if (seen.has(value)) {
+        for (let row = 0; row < nrows; row++){
+            const val = board[row][col];
+            if (val !== '.' && seen.has(val)) {
                 return false;
             }
-
-            seen.add(value);
+            seen.add(val);
         }
     }
-
-    // Check 3×3 boxes
-    for (let boxRow = 0; boxRow < 9; boxRow += 3) {
-        for (let boxCol = 0; boxCol < 9; boxCol += 3) {
+    
+    // check the squares
+    for (let row = 0; row < nrows; row += 3){
+        for (let col = 0; col < ncols; col += 3){
             const seen = new Set<string>();
-
-            for (let row = boxRow; row < boxRow + 3; row++) {
-                for (let col = boxCol; col < boxCol + 3; col++) {
-                    const value = board[row][col];
-
-                    if (value === ".") continue;
-
-                    if (seen.has(value)) {
-                        return false;
-                    }
-
-                    seen.add(value);
+            for (let r = row; r < row + 3; r++){
+                for (let c = col; c < col + 3; c ++) {
+                    const val = board[r][c];
+                    if (val !== '.' && seen.has(val)) {
+                return false;
+            }
+            seen.add(val);
                 }
             }
         }
     }
-
     return true;
-}
+    
+};
