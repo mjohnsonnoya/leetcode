@@ -1,16 +1,18 @@
 function groupAnagrams(strs: string[]): string[][] {
-    const groups = new Map<string, string[]>();
-    for (const word of strs){
+    const buckets = new Map<string, string[]>();
+
+    for (const word of strs) {
         const count = new Array<number>(26).fill(0);
-        for (let i =0; i<word.length; i++){
+        for (let i = 0; i < word.length; i++) {
             count[word.charCodeAt(i) - 'a'.charCodeAt(0)]++;
         }
         const key = count.join(',');
-        if (!groups.has(key)){
-            groups.set(key, [])
+        if (!buckets.has(key)){
+            buckets.set(key, []);
         }
-        groups!.get(key).push(word);
+
+        buckets!.get(key).push(word);
     }
-    return [...groups.values()]
-    
+
+    return [...buckets.values()];
 };
