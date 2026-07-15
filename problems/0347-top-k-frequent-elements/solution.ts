@@ -5,23 +5,22 @@ function topKFrequent(nums: number[], k: number): number[] {
         count.set(num, (count.get(num) ?? 0) + 1);
     }
 
-    const buckets = Array.from({length: nums.length + 1}, () => []);
+    const buckets: number[][] = Array.from({length: nums.length + 1}, () => []);
 
     for (const [num, freq] of count) {
         buckets[freq].push(num);
     }
 
-    const ans: number[] = [];
+    const ans = new Array<number>();
 
-    for (let i = buckets.length - 1; i > 0; i--){
-        for (const num of buckets[i]){
+    for (let i = buckets.length - 1; i >= 0; i--) {
+        const bucket: number[] = buckets[i];
+        for (const num of bucket){
             ans.push(num);
-        }
-
-        if (ans.length === k) {
-            return ans;
+            if (ans.length === k) {
+                return ans;
+            }
         }
     }
-
-    return ans;
+    
 };
