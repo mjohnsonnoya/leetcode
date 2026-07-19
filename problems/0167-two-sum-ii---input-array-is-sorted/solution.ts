@@ -4,17 +4,17 @@ function twoSum(numbers: number[], target: number): number[] {
 
     while (l < r) {
         const sum = numbers[l] + numbers[r];
-
-        if (sum === target) {
+        let resid = sum - target;
+        if (resid === 0) {
             return [l + 1, r + 1];
         }
 
-        if (sum > target) {
+        else if (resid > 0) {
             r -= 1;
         }
 
-        if (sum < target) {
+        else {
             l += 1;
         }
-    } 
+    }
 };
