@@ -20,6 +20,6 @@ function trap(height: number[]): number {
             r -= 1;
         }
     }
-    
-    return water;""
+
+    return water;
 };
