@@ -2,65 +2,61 @@ function isValidSudoku(board: string[][]): boolean {
     const nrows = board.length;
     const ncols = board[0].length;
     
-    // check all the rows
-    for (let row = 0; row < nrows; row++) {
+    // check the rows
+    for (let r = 0; r < nrows; r++) {
         const seen = new Set<string>();
-        for (let col = 0; col < ncols; col++) {
-            if (board[row][col] === '.') {
+        for (let c = 0; c < ncols; c++) {
+            if (board[r][c] === '.') {
                 continue;
             }
-            else if (seen.has(board[row][col])) {
+            else if (seen.has(board[r][c])) {
                 return false;
             }
 
             else {
-                seen.add(board[row][col]);
+                seen.add(board[r][c]);
             }
         }
     }
 
-    // check all the cols
-    for (let col = 0; col < ncols; col++) {
+    // check columns
+    for (let c = 0; c < ncols; c++) {
         const seen = new Set<string>();
-        for (let row = 0; row < nrows; row++) {
-            if (board[row][col] === '.') {
+        for (let r = 0; r < nrows; r++) {
+            if (board[r][c] === '.') {
                 continue;
             }
-            else if (seen.has(board[row][col])) {
-                console.log(board[row][col]);
-                console.log(row);
-                console.log(col);
+            else if (seen.has(board[r][c])) {
                 return false;
             }
 
             else {
-                seen.add(board[row][col]);
+                seen.add(board[r][c]);
             }
         }
     }
 
-    // check all the boxes
-    for (let row = 0; row < nrows; row += 3) {
-        for (let col = 0; col < ncols; col += 3) {
+    // check the boxes
+    for (let r = 0; r < nrows; r += 3) {
+        for (let c = 0; c < ncols; c += 3) {
             const seen = new Set<string>();
-            for (let r = row; r < row + 3; r++) {
-                for (let c = col; c < col + 3; c++) {
-                    if (board[r][c] === '.') {
+            for (let row = r; row < r + 3; row++ ) {
+                for (let col = c; col < c + 3; col++ ) {
+                    if (board[row][col] === '.') {
                         continue;
                     }
-                    else if (seen.has(board[r][c])) {
+                    else if (seen.has(board[row][col])) {
                         return false;
                     }
 
                     else {
-                        seen.add(board[r][c]);
-                    }
+                        seen.add(board[row][col]);
+                    } 
                 }
             }
         }
     }
 
     return true;
-
-
+    
 };
