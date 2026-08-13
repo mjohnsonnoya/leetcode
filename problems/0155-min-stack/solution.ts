@@ -1,7 +1,6 @@
 class MinStack {
-    private stack: number[];
-    private mins: number[];
-
+    stack: number[];
+    mins: number[]
     constructor() {
         this.stack = [];
         this.mins = [];
@@ -9,12 +8,18 @@ class MinStack {
 
     push(value: number): void {
         this.stack.push(value);
-        this.mins.push((this.mins.length === 0) ? value : Math.min(value, this.mins[this.mins.length - 1]));
+        if (this.mins[this.mins.length - 1] <= value) {
+            this.mins.push(this.mins[this.mins.length - 1]);
+        }
+
+        else {
+            this.mins.push(value);
+        }
     }
 
     pop(): void {
-        this.stack.pop();
         this.mins.pop();
+        this.stack.pop();
     }
 
     top(): number {
