@@ -1,20 +1,23 @@
 function maxArea(height: number[]): number {
     let l = 0;
     let r = height.length - 1;
-    let maxWater = 0;
+    let maxArea = 0;
 
     while (l < r) {
-        let water = (r - l) * Math.min(height[l], height[r]);
-        maxWater = Math.max(maxWater, water);
+        const leftHeight = height[l];
+        const rightHeight = height[r];
+        const area = (r - l) * Math.min(leftHeight, rightHeight);
+        maxArea = Math.max(maxArea, area);
 
-        if (height[l] <= height[r]) {
+        if (leftHeight <= rightHeight) {
             l += 1;
         }
 
         else {
             r -= 1;
         }
+
     }
 
-    return maxWater;
+    return maxArea;
 };
