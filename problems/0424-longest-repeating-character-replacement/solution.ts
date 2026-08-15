@@ -1,28 +1,29 @@
 function characterReplacement(s: string, k: number): number {
-    let maxFreq = 1;
     let maxLength = 1;
 
-    const charCodeA = 'A'.charCodeAt(0);
-    const count = new Array<number>(26).fill(0);
+    const n = s.length;
 
     let l = 0;
-    let r = s.length - 1;
 
-    for (r = 0; r < s.length; r++) {
-        // console.log("r: ", r);
-        // console.log("l: ", l);
-        count[s.charCodeAt(r) - charCodeA] += 1;
-        // console.log(count);
-        if (count[s.charCodeAt(r) - charCodeA] > maxFreq) {
-            maxFreq = count[s.charCodeAt(r) - charCodeA];
+    const count = new Map<string, number>();
+    let maxFreq = 1;
+
+    for (let r = 0; r < n; r++) {
+        const rightChar = s[r];
+        count.set(rightChar, (count.get(rightChar) ?? 0) + 1);
+
+        if (count.get(rightChar) > maxFreq) {
+            maxFreq = count.get(rightChar);
         }
 
-        if ((r - l + 1) - maxFreq <= k) {
-            maxLength = Math.max(maxLength, (r - l + 1));
+
+        if (r - l + 1 - maxFreq <= k) {
+            maxLength = Math.max(maxLength, r - l + 1);
         }
 
-        while ((r - l + 1) - maxFreq > k) {
-            count[s.charCodeAt(l) - charCodeA] -= 1;
+        while (r - l + 1 - maxFreq > k) {
+            const leftChar = s[l];
+            count.set(leftChar, count.get(leftChar) - 1);
             l += 1;
         }
     }
