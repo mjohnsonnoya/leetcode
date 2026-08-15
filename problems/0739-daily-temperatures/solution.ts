@@ -1,20 +1,23 @@
 function dailyTemperatures(temperatures: number[]): number[] {
-    let n = temperatures.length;
-    const ans: number[] = new Array<number>(temperatures.length).fill(0);
-    for (let i = temperatures.length - 2; i >= 0; i--) {
+    const ans = new Array<number>(temperatures.length).fill(0);
+    const n = temperatures.length;
+
+    for (let i = n - 2; i >= 0; i--) {
         let k = i + 1;
-        while ((temperatures[k] <= temperatures[i]) && (k !== n)) {
+        while (k < n && temperatures[k] <= temperatures[i]) {
             if (ans[k] === 0) {
                 k = n;
                 break;
             }
-            k += ans[k];
+            else {
+                k += ans[k];
+            }
         }
 
         if (k !== n) {
             ans[i] = k - i;
-        };
+        }
     }
-    
+
     return ans;
 };
