@@ -1,11 +1,13 @@
 function trap(height: number[]): number {
+    const n = height.length;
     let l = 0;
-    let r = height.length - 1;
-    
+    let r = n - 1;
+
     let leftMax = height[l];
     let rightMax = height[r];
 
     let water = 0;
+
 
     while (l <= r) {
         if (leftMax <= rightMax) {
@@ -16,10 +18,11 @@ function trap(height: number[]): number {
 
         else {
             rightMax = Math.max(rightMax, height[r]);
-            water += rightMax - height[r];
+            water +=  rightMax - height[r];
             r -= 1;
         }
     }
 
     return water;
+
 };
