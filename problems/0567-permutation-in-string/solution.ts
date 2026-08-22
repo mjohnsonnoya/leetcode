@@ -1,38 +1,32 @@
 function checkInclusion(s1: string, s2: string): boolean {
-    if (s2.length < s1.length) {
-        return false;
-    }
-
-    const need = new Array<number>(26).fill(0);
+    const n = s2.length;
+    const needed = new Array<number>(26).fill(0);
     const aCharCode = 'a'.charCodeAt(0);
+    let numNeeded = s1.length;
+    for (const char of s1) {
+        const index = char.charCodeAt(0) - aCharCode;
+        needed[index] += 1;
+    }
 
     let l = 0;
 
-    for (let i = 0; i < s1.length; i++) {
-        need[s1.charCodeAt(i) - aCharCode] += 1;
-    }
+    for (let r = 0; r < n; r++) {
+        const rightIndex = s2.charCodeAt(r) - aCharCode;
+        needed[rightIndex] -= 1;
 
-    for (let r = 0; r < s2.length; r++) {
-        need[s2.charCodeAt(r) - aCharCode] -= 1;
+        numNeeded -= 1;
 
-        if (need[s2.charCodeAt(r) - aCharCode] === 0) {
-            let valid = true;
-            for (const c of need) {
-                if (c !== 0) {
-                    valid = false;
-                    break;
-                }
-            }
-            if (valid) {
-                return valid;
-            }
+        while (l <= r && needed[rightIndex] < 0) {
+            const leftIndex = s2.charCodeAt(l) - aCharCode;
+            needed[leftIndex] += 1;
+
+            numNeeded += 1;
+
+            l += 1;
         }
 
-        else if (need[s2.charCodeAt(r) - aCharCode] < 0)  {
-            while (need[s2.charCodeAt(r) - aCharCode] < 0) {
-                need[s2.charCodeAt(l) - aCharCode]++;
-                l += 1;
-            }
+        if (numNeeded === 0) {
+            return true;
         }
     }
 
