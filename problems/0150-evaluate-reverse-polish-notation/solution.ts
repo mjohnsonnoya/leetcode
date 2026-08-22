@@ -1,14 +1,13 @@
 function evalRPN(tokens: string[]): number {
-    const ops = new Set<string>(['+', '-', '*', '/']);
-
     const stack: number[] = [];
+    const operations = new Set(['+', '-', '*', '/']);
 
-    for (const c of tokens) {
-        if (ops.has(c)) {
+    for (const token of tokens) {
+        if (operations.has(token)) {
             const b = stack.pop();
             const a = stack.pop();
 
-            switch (c) {
+            switch (token) {
                 case '+':
                     stack.push(a + b);
                     break;
@@ -25,10 +24,10 @@ function evalRPN(tokens: string[]): number {
         }
 
         else {
-            stack.push(Number(c));
+            stack.push(Number(token));
         }
-        // console.log(stack);
     }
 
-    return stack[0];
+    return stack.pop();
+
 };
