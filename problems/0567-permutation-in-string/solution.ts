@@ -1,27 +1,24 @@
 function checkInclusion(s1: string, s2: string): boolean {
-    const n = s2.length;
-    const needed = new Array<number>(26).fill(0);
-    const aCharCode = 'a'.charCodeAt(0);
-    let numNeeded = s1.length;
+    const needed = new Map<string, number>();
+
     for (const char of s1) {
-        const index = char.charCodeAt(0) - aCharCode;
-        needed[index] += 1;
+        needed.set(char, (needed.get(char) ?? 0) + 1);
     }
+
+    let numNeeded = s1.length;
 
     let l = 0;
 
-    for (let r = 0; r < n; r++) {
-        const rightIndex = s2.charCodeAt(r) - aCharCode;
-        needed[rightIndex] -= 1;
+    for (let r = 0; r < s2.length; r++) {
+        const rightChar = s2[r];
+        needed.set(rightChar, (needed.get(rightChar) ?? 0) - 1);
 
         numNeeded -= 1;
 
-        while (l <= r && needed[rightIndex] < 0) {
-            const leftIndex = s2.charCodeAt(l) - aCharCode;
-            needed[leftIndex] += 1;
-
+        while (needed.get(rightChar) < 0) {
+            const leftChar = s2[l];
+            needed.set(leftChar, (needed.get(leftChar) ?? 0) + 1);
             numNeeded += 1;
-
             l += 1;
         }
 
