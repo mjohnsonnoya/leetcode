@@ -1,8 +1,8 @@
 function checkInclusion(s1: string, s2: string): boolean {
-    const needed = new Map<string, number>();
+    const need = new Map<string, number>();
 
     for (const char of s1) {
-        needed.set(char, (needed.get(char) ?? 0) + 1);
+        need.set(char, (need.get(char) ?? 0) + 1);
     }
 
     let numNeeded = s1.length;
@@ -11,15 +11,30 @@ function checkInclusion(s1: string, s2: string): boolean {
 
     for (let r = 0; r < s2.length; r++) {
         const rightChar = s2[r];
-        needed.set(rightChar, (needed.get(rightChar) ?? 0) - 1);
-
-        numNeeded -= 1;
-
-        while (needed.get(rightChar) < 0) {
-            const leftChar = s2[l];
-            needed.set(leftChar, (needed.get(leftChar) ?? 0) + 1);
-            numNeeded += 1;
+        if (!need.has(rightChar)) {
+            while (l < r) {
+                const leftChar = s2[l];
+                need.set(leftChar, need.get(leftChar) + 1);
+                numNeeded += 1;
+                l += 1;
+            }
             l += 1;
+        }
+
+        else if (need.get(rightChar) === 0) {
+            while (l < r && need.get(rightChar) === 0) {
+                const leftChar = s2[l];
+                need.set(leftChar, need.get(leftChar) + 1);
+                numNeeded += 1;
+                l += 1;
+            }
+            need.set(rightChar, need.get(rightChar) - 1);
+            numNeeded -= 1;
+        }
+
+        else {
+            need.set(rightChar, need.get(rightChar) - 1);
+            numNeeded -= 1;
         }
 
         if (numNeeded === 0) {
@@ -28,4 +43,5 @@ function checkInclusion(s1: string, s2: string): boolean {
     }
 
     return false;
+
 };
