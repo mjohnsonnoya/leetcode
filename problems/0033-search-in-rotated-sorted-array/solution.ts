@@ -1,30 +1,29 @@
 function search(nums: number[], target: number): number {
+    const n = nums.length;
+    let l = 0;
+    let r = n - 1;
 
-    function binarySearch(start: number, end: number) {
+    function binarySearch(start: number, end: number): number {
         let left = start;
         let right = end - 1;
 
         while (left <= right) {
-            const m = Math.floor((left + right) / 2);
-
-            if (nums[m] == target) {
+            const m = Math.floor((left + right)/2);
+            if (nums[m] === target) {
                 return m;
             }
 
-            if (nums[m] < target) {
-                left = m + 1;
+            else if (nums[m] > target) {
+                right = m - 1;
             }
 
             else {
-                right = m - 1;
+                left = m + 1;
             }
         }
 
         return -1;
     }
-    
-    let l = 0;
-    let r = nums.length - 1;
 
     while (l < r) {
         const m = Math.floor((l + r)/2);
@@ -32,14 +31,18 @@ function search(nums: number[], target: number): number {
         if (nums[r] < nums[m]) {
             l = m + 1;
         }
-
+        
         else {
             r = m;
         }
     }
 
-    const k1 = binarySearch(0, l);
-    const k2 = binarySearch(l, nums.length);
+    console.log(l);
 
-    return (k1 !== -1) ? k1 : k2;
+    // Select the correct sorted half based on target range
+    if (target >= nums[l] && target <= nums[n - 1]) {
+        return binarySearch(l, n);
+    } else {
+        return binarySearch(0, l);
+    }
 };
