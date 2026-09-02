@@ -1,5 +1,5 @@
 class TimeMap {
-    dictionary:  Map<string, [number, string][]>;
+    dictionary: Map<string, [number, string][]>;
     constructor() {
         this.dictionary = new Map<string, [number, string][]>();
     }
@@ -15,24 +15,22 @@ class TimeMap {
         if (!this.dictionary.has(key)) {
             return "";
         }
-        const values = this.dictionary.get(key);
+
         let l = 0;
-        let r = values.length - 1;
+        let r = this.dictionary.get(key).length - 1;
 
         while (l < r) {
-            // console.log("l: ", l);
-            // console.log("r: ", r);
             const m = Math.ceil((l + r) / 2);
-            // console.log("m: ", m);
-            if (values[m][0] > timestamp) {
+
+            if (this.dictionary.get(key)[m][0] > timestamp) {
                 r = m - 1;
             }
-
             else {
                 l = m;
             }
         }
-        return (values[r][0] <= timestamp) ? values[l][1] : "";
+
+        return this.dictionary.get(key)[r][0] <= timestamp ? this.dictionary.get(key)[r][1] : "";
     }
 }
 
