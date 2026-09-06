@@ -1,23 +1,22 @@
 function minEatingSpeed(piles: number[], h: number): number {
-    function validSpeed(speed: number): boolean {
-        let timeLeft = h;
-        for (const pile of piles) {
-            timeLeft -= Math.ceil(pile/speed);
-        }
-
-        return timeLeft >= 0;
-    }
-
     let l = 1;
     let r = Math.max(...piles);
 
-    while (l < r) {
-        const m = Math.floor((l + r) / 2);
-        // console.log("l: ", l);
-        // console.log("r: ", r);
-        // console.log("m: ", m);
+    function isValid(speed: number) {
+        let timeleft = h;
 
-        if (validSpeed(m)) {
+        for (const pile of piles) {
+            const time = Math.ceil(pile/speed);
+            timeleft -= time;
+        }
+
+        return timeleft >= 0;
+    }
+
+    while (l < r) {
+        const m = Math.floor((l + r)/2);
+
+        if (isValid(m)) {
             r = m;
         }
 
