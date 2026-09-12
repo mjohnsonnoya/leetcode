@@ -1,36 +1,39 @@
 class TimeMap {
-    dictionary: Map<string, [number, string][]>;
+    map;
     constructor() {
-        this.dictionary = new Map<string, [number, string][]>();
+        this.map = new Map<string, [number, number][]>();
     }
 
     set(key: string, value: string, timestamp: number): void {
-        if (!this.dictionary.has(key)) {
-            this.dictionary.set(key, []);
+        if (!this.map.has(key)) {
+            this.map.set(key, []);
         }
-        this.dictionary.get(key).push([timestamp, value]);
+
+        this.map.get(key).push([value, timestamp]);
     }
 
     get(key: string, timestamp: number): string {
-        if (!this.dictionary.has(key)) {
-            return "";
-        }
 
+        if (!this.map.has(key)) return "";
+        
         let l = 0;
-        let r = this.dictionary.get(key).length - 1;
+        let r = this.map.get(key).length - 1;
 
         while (l < r) {
-            const m = Math.ceil((l + r) / 2);
+            const m = Math.ceil((l + r)/2);
 
-            if (this.dictionary.get(key)[m][0] > timestamp) {
-                r = m - 1;
-            }
-            else {
+            const time: number = this.map.get(key)[m][1];
+
+            if (time <= timestamp) {
                 l = m;
+            }
+
+            else {
+                r = m - 1;
             }
         }
 
-        return this.dictionary.get(key)[r][0] <= timestamp ? this.dictionary.get(key)[r][1] : "";
+        return (this.map.get(key)[l][1] <= timestamp) ? this.map.get(key)[l][0] : "";
     }
 }
 
