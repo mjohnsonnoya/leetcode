@@ -3,60 +3,59 @@ function isValidSudoku(board: string[][]): boolean {
     const ncols = board[0].length;
     
     // check the rows
-    for (let r = 0; r < nrows; r++) {
+    for (let row = 0; row < nrows; row++) {
         const seen = new Set<string>();
-        for (let c = 0; c < ncols; c++) {
-            if (board[r][c] === '.') {
+        for (let col = 0; col < ncols; col++) {
+            const value = board[row][col];
+            if (value === ".") {
                 continue;
             }
-            else if (seen.has(board[r][c])) {
-                return false;
+            if (seen.has(value)) {
+                return false; 
             }
-
-            else {
-                seen.add(board[r][c]);
-            }
+            seen.add(value);
         }
     }
 
-    // check columns
-    for (let c = 0; c < ncols; c++) {
+
+    // check the cols
+    for (let col = 0; col < ncols; col++) {
         const seen = new Set<string>();
-        for (let r = 0; r < nrows; r++) {
-            if (board[r][c] === '.') {
+        for (let row = 0; row < nrows; row++) {
+            const value = board[row][col];
+            if (value === ".") {
                 continue;
             }
-            else if (seen.has(board[r][c])) {
+
+            if (seen.has(value)) {
                 return false;
             }
 
-            else {
-                seen.add(board[r][c]);
-            }
+            seen.add(value);
         }
     }
 
-    // check the boxes
+    // check the "squares"
     for (let r = 0; r < nrows; r += 3) {
         for (let c = 0; c < ncols; c += 3) {
             const seen = new Set<string>();
-            for (let row = r; row < r + 3; row++ ) {
-                for (let col = c; col < c + 3; col++ ) {
-                    if (board[row][col] === '.') {
+            for (let row = r; row < r + 3; row++) {
+                for (let col = c; col < c + 3; col++) {
+                    const value = board[row][col];
+                    if (value === ".") {
                         continue;
                     }
-                    else if (seen.has(board[row][col])) {
+
+                    if (seen.has(value)) {
                         return false;
                     }
 
-                    else {
-                        seen.add(board[row][col]);
-                    } 
+                    seen.add(value);
                 }
             }
         }
     }
 
     return true;
-    
+
 };
