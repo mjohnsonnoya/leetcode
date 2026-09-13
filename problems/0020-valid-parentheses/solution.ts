@@ -1,21 +1,23 @@
 function isValid(s: string): boolean {
-    const equiv = new Map<string, string>([['(', ')'], ['[', ']'], ['{', '}']]);
     const stack: string[] = [];
+
+    const mapping = new Map([["(", ")"], ["[", "]"], ["{", "}"],]);
 
     for (const char of s) {
         if (stack.length === 0) {
             stack.push(char);
-            continue;
         }
 
-        const top = stack[stack.length - 1];
-        if (equiv.has(top) && equiv.get(top) === char) {
-            stack.pop();
-            continue;
-        }
+        else {
+            if (char === mapping.get(stack[stack.length - 1])) {
+                stack.pop();
+            }
 
-        stack.push(char);
+            else {
+                stack.push(char);
+            }
+        }
     }
 
-    return stack.length === 0;
+    return (stack.length === 0);
 };
