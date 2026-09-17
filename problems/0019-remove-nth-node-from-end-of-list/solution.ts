@@ -11,17 +11,17 @@
  */
 
 function removeNthFromEnd(head: ListNode | null, n: number): ListNode | null {
-    let curr = head;
-    
     let length = 0;
+
+    let curr = head;
 
     while (curr !== null) {
         length += 1;
         curr = curr.next;
     }
 
-    let dummy = new ListNode(undefined, head);
-    curr = dummy
+    const dummy: ListNode = new ListNode(undefined, head);
+    curr = dummy;
 
     for (let i = 0; i < length - n; i++) {
         curr = curr.next;
