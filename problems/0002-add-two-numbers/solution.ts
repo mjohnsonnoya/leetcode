@@ -11,15 +11,21 @@
  */
 
 function addTwoNumbers(l1: ListNode | null, l2: ListNode | null): ListNode | null {
-    const dummy = new ListNode();
-    let tail = dummy;
-    let spill = 0;
-    while (l1 !== null || l2 !== null || spill > 0) {
-        const value = (l1?.val ?? 0) + (l2?.val ?? 0) + spill;
-        const node = new ListNode(value % 10, undefined);
-        tail.next = node;
-        tail = node;
-        spill = Math.floor(value / 10);
+    let carry = 0;
+
+    const dummy: ListNode = new ListNode();
+    let head = dummy;
+
+    while (l1 !== null || l2 !== null || carry > 0) {
+
+        const total = (l1?.val ?? 0) + (l2?.val ?? 0) + carry;
+
+        const remainder = total % 10;
+
+        head.next = new ListNode(remainder, undefined);
+
+        carry = Math.floor(total / 10);
+
         if (l1 !== null) {
             l1 = l1.next;
         }
@@ -27,6 +33,8 @@ function addTwoNumbers(l1: ListNode | null, l2: ListNode | null): ListNode | nul
         if (l2 !== null) {
             l2 = l2.next;
         }
+
+        head = head.next;
     }
 
     return dummy.next;
