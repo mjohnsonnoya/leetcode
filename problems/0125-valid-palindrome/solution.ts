@@ -1,12 +1,11 @@
 function isPalindrome(s: string): boolean {
     s = s.toLowerCase();
-    function isAlphaNumeric(c: string) {
-        const charCode = c.charCodeAt(0);
-        if (('a'.charCodeAt(0) <= charCode) && (charCode <= 'z'.charCodeAt(0))) {
+    function isAlphaNumeric(c: string): boolean {
+        if (c.charCodeAt(0) >= 'a'.charCodeAt(0) && c.charCodeAt(0) <= 'z'.charCodeAt(0)) {
             return true;
         }
 
-        else if (('0'.charCodeAt(0) <= charCode) && (charCode <= '9'.charCodeAt(0))) {
+        else if (c.charCodeAt(0) >= '0'.charCodeAt(0) && c.charCodeAt(0) <= '9'.charCodeAt(0)) {
             return true;
         }
 
@@ -19,11 +18,11 @@ function isPalindrome(s: string): boolean {
     let r = s.length - 1;
 
     while (l < r) {
-        while (!isAlphaNumeric(s[l]) && (l < r)) {
+        while (l < r && !isAlphaNumeric(s[l])) {
             l += 1;
         }
 
-        while (!isAlphaNumeric(s[r]) && (l < r)) {
+        while (l < r && !isAlphaNumeric(s[r])) {
             r -= 1;
         }
 
@@ -34,5 +33,8 @@ function isPalindrome(s: string): boolean {
         l += 1;
         r -= 1;
     }
+
     return true;
+
+
 };
