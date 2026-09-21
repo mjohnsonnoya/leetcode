@@ -22,29 +22,30 @@ function reorderList(head: ListNode | null): void {
         fast = fast.next.next;
     }
 
-    let curr: ListNode | null = slow.next;
+    let secondHalf = slow.next;
     slow.next = null;
 
-    let secondHalf: ListNode | null = null;
-
-    while (curr !== null) {
-        const next = curr.next;
-        curr.next = secondHalf;
-        secondHalf = curr;
-        curr = next;
-    }
-
-    let firstHalf: ListNode | null = head;
+    let second: ListNode | null = null;
 
     while (secondHalf !== null) {
-        const firstNext = firstHalf.next;
         const secondNext = secondHalf.next;
-
-        firstHalf.next = secondHalf;
-        secondHalf.next = firstNext;
-
-        firstHalf = firstNext;
+        secondHalf.next = second;
+        second = secondHalf;
         secondHalf = secondNext;
     }
+
+    let first: ListNode | null = head;
+
+    while (second !== null) {
+        let firstNext = first.next;
+        let secondNext = second.next;
+
+        first.next = second;
+        second.next = firstNext;
+
+        first = firstNext;
+        second = secondNext;
+    }
+
 
 };
