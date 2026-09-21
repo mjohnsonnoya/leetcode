@@ -13,10 +13,11 @@ function topKFrequent(nums: number[], k: number): number[] {
 
     const ans: number[] = [];
 
-    for (let i = buckets.length - 1; i >= 0; i--) {
-        for(const num of buckets[i]) {
-            ans.push(num);
+    for (let idx = buckets.length - 1; idx >= 0; idx--) {
+        for (const num of buckets[idx]) {
+            ans.push(num)
         }
+
         if (ans.length === k) {
             break;
         }
