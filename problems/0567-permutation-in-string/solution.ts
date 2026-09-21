@@ -1,26 +1,23 @@
 function checkInclusion(s1: string, s2: string): boolean {
-    let numNeeded = s1.length;
+    const count = new Map<string, number>();
 
-    const needed = new Array(26).fill(0);
-
-    const aCharCode = 'a'.charCodeAt(0);
-
-    for (let i = 0; i < numNeeded; i++) {
-        const index = s1.charCodeAt(i) - aCharCode;
-        needed[index] += 1;
+    for (const char of s1) {
+        count.set(char, (count.get(char) ?? 0) + 1);
     }
+
+    let numNeeded = s1.length;
 
     let l = 0;
 
     for (let r = 0; r < s2.length; r++) {
-        const rightCharIndex = s2.charCodeAt(r) - aCharCode;
-        needed[rightCharIndex] -= 1;
+        const rightChar = s2[r]; 
+        count.set(rightChar, (count.get(rightChar) ?? 0) - 1);
         numNeeded -= 1;
 
-        while (needed[rightCharIndex] < 0) {
-            let leftIndex = s2.charCodeAt(l) - aCharCode;
+        while (count.get(rightChar) < 0) {
+            const leftChar = s2[l];
+            count.set(leftChar, count.get(leftChar) + 1);
             numNeeded += 1;
-            needed[leftIndex] += 1;
             l += 1;
         }
 
@@ -28,8 +25,5 @@ function checkInclusion(s1: string, s2: string): boolean {
             return true;
         }
     }
-
     return false;
-
-
 };
