@@ -1,11 +1,32 @@
 function search(nums: number[], target: number): number {
-    const n = nums.length;
-    
     let l = 0;
-    let r = n - 1;
+    let r = nums.length - 1;
+
+    function binarySearch(left: number, right: number): number {
+        let l = left;
+        let r = right - 1;
+
+        while (l <= r) {
+            const m = Math.floor((l + r)/2);
+
+            if (nums[m] === target) {
+                return m;
+            }
+
+            else if (nums[m] < target) {
+                l = m + 1;
+            }
+
+            else {
+                r = m - 1;
+            }
+        }
+
+        return -1;
+    }
 
     while (l < r) {
-        const m = Math.floor((l + r) / 2);
+        const m = Math.floor((l + r)/2);
 
         if (nums[m] > nums[r]) {
             l = m + 1;
@@ -16,26 +37,14 @@ function search(nums: number[], target: number): number {
         }
     }
 
-    function binarySearch(start: number, end: number){
-        let left = start;
-        let right = end - 1;
-        while (left <= right) {
-            const middle = Math.floor((left + right)/2);
-            if (nums[middle] === target) {
-                return middle;
-            }
+    const pivot = l;
 
-            else if (nums[middle] < target) {
-                left = middle + 1;
-            }
-
-            else {
-                right = middle - 1;
-            }
-        }
-
-        return - 1;
+    if (target >= nums[pivot] && target <= nums[nums.length - 1]) {
+        return binarySearch(pivot, nums.length);
     }
 
-    return (nums[0] <= target && target <= nums[l - 1]) ? binarySearch(0, l) : binarySearch(l, n);
+    else {
+        return binarySearch(0, pivot);
+    }
+
 };
