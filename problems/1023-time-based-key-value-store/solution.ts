@@ -1,30 +1,29 @@
 class TimeMap {
-    map;
+    store: Map<string, [number, string][]>;
     constructor() {
-        this.map = new Map<string, [number, number][]>();
+        this.store = new Map<string, [number, string][]>();
     }
 
     set(key: string, value: string, timestamp: number): void {
-        if (!this.map.has(key)) {
-            this.map.set(key, []);
+        if (!this.store.has(key)) {
+            this.store.set(key, []);
         }
 
-        this.map.get(key).push([value, timestamp]);
+        this.store.get(key).push([timestamp, value]);
     }
 
     get(key: string, timestamp: number): string {
+        if (!this.store.has(key)) {
+            return "";
+        }
 
-        if (!this.map.has(key)) return "";
-        
         let l = 0;
-        let r = this.map.get(key).length - 1;
+        let r = this.store.get(key).length - 1;
 
         while (l < r) {
             const m = Math.ceil((l + r)/2);
 
-            const time: number = this.map.get(key)[m][1];
-
-            if (time <= timestamp) {
+            if (this.store.get(key)[m][0] <= timestamp) {
                 l = m;
             }
 
@@ -33,7 +32,11 @@ class TimeMap {
             }
         }
 
-        return (this.map.get(key)[l][1] <= timestamp) ? this.map.get(key)[l][0] : "";
+        if (r < 0 || this.store.get(key)[r][0] > timestamp) {
+            return "";
+        }
+
+        return this.store.get(key)[l][1];
     }
 }
 
