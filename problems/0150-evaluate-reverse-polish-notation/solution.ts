@@ -1,33 +1,33 @@
 function evalRPN(tokens: string[]): number {
     const stack: number[] = [];
-    const operations = new Set(['+', '-', '*', '/']);
+
+    const ops: Set<string> = new Set<string>(['+', '-', '*', '/']);
 
     for (const token of tokens) {
-        if (operations.has(token)) {
-            const b = stack.pop();
-            const a = stack.pop();
-
+        if (ops.has(token)) {
+            const b: number = stack.pop();
+            const a: number = stack.pop();
             switch (token) {
-                case '+':
+                case "+":
                     stack.push(a + b);
                     break;
-                case '-':
+                case "-":
                     stack.push(a - b);
                     break;
-                case '*':
+                case "*":
                     stack.push(a * b);
                     break;
-                case '/':
+                case "/":
                     stack.push(Math.trunc(a / b));
                     break;
             }
+
+
         }
 
-        else {
-            stack.push(Number(token));
-        }
+        else {stack.push(Number(token));}
     }
 
-    return stack.pop();
 
+    return stack[stack.length - 1];
 };
