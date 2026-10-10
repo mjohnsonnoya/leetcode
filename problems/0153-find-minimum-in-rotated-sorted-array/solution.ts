@@ -4,7 +4,6 @@ function findMin(nums: number[]): number {
 
     while (l < r) {
         const m = Math.floor((l + r)/2);
-
         if (nums[m] > nums[r]) {
             l = m + 1;
         }
