@@ -17,35 +17,33 @@ function reorderList(head: ListNode | null): void {
     let slow = head;
     let fast = head;
 
-    while (fast.next && fast.next.next) {
+    while (fast.next !== null && fast.next.next !== null) {
         slow = slow.next;
         fast = fast.next.next;
     }
 
-    let secondHalf = slow.next;
+    let curr = slow.next;
     slow.next = null;
-
     let second: ListNode | null = null;
 
-    while (secondHalf !== null) {
-        const secondNext = secondHalf.next;
-        secondHalf.next = second;
-        second = secondHalf;
-        secondHalf = secondNext;
+    while (curr !== null) {
+        const currNext = curr.next;
+
+        curr.next = second;
+        second = curr;
+        curr = currNext;
     }
 
-    let first: ListNode | null = head;
+    let first: ListNode = head;
 
     while (second !== null) {
-        let firstNext = first.next;
-        let secondNext = second.next;
+        const firstNext = first.next;
+        const secondNext = second.next;
 
         first.next = second;
         second.next = firstNext;
 
         first = firstNext;
         second = secondNext;
-    }
-
-
+    }    
 };
