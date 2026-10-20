@@ -13,23 +13,22 @@
  */
 
 function diameterOfBinaryTree(root: TreeNode | null): number {
-    // diameter of Binary tree at root is equal to max diameter of tree rooted at root.left or root.right, or it could be 2 + depth(root.left) + depth(root.right)
+    let maxDiameter = 0;
 
-
-    function helper(root: TreeNode | null): [number, number] {
+    function depth(root: TreeNode | null): number {
         if (!root) {
-            return [0, -1];
+            return -1;
         }
 
-        const [leftDiam, leftDepth] = helper(root.left);
-        const [rightDiam, rightDepth] = helper(root.right);
+        const leftDepth = depth(root.left);
+        const rightDepth = depth(root.right);
 
-        return [Math.max(2 + leftDepth + rightDepth, leftDiam, rightDiam), 1 + Math.max(leftDepth, rightDepth)];
+        maxDiameter = Math.max(maxDiameter, 2 + leftDepth + rightDepth);
+
+        return 1 + Math.max(leftDepth, rightDepth);
     }
 
-    const [diam, depth] = helper(root);
+    depth(root);
 
-    return diam;
-
-
+    return maxDiameter;
 };
