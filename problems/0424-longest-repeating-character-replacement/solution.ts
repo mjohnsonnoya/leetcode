@@ -1,21 +1,19 @@
 function characterReplacement(s: string, k: number): number {
-    let l = 0;
 
     const count = new Map<string, number>();
 
-    let maxFreq = 0;
-
-    let maxLen = 0;
-
+    let maxCount = 0;
+    let maxLen = 1;
+    let l = 0;
     for (let r = 0; r < s.length; r++) {
         const rightChar = s[r];
         count.set(rightChar, (count.get(rightChar) ?? 0) + 1);
 
-        maxFreq = Math.max(count.get(rightChar), maxFreq);
+        maxCount = Math.max(maxCount, count.get(rightChar));
 
-        while (r - l + 1 - maxFreq > k) {
+        while (r - l + 1 - maxCount > k) {
             const leftChar = s[l];
-            count.set(leftChar, count.get(leftChar) - 1);
+            count.set(leftChar, (count.get(leftChar) ?? 0) - 1);
             l += 1;
         }
 
