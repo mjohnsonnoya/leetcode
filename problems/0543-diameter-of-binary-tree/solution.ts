@@ -13,7 +13,7 @@
  */
 
 function diameterOfBinaryTree(root: TreeNode | null): number {
-    let maxDiameter = 0;
+    let diameter = 0;
 
     function depth(root: TreeNode | null): number {
         if (!root) {
@@ -23,12 +23,12 @@ function diameterOfBinaryTree(root: TreeNode | null): number {
         const leftDepth = depth(root.left);
         const rightDepth = depth(root.right);
 
-        maxDiameter = Math.max(maxDiameter, 2 + leftDepth + rightDepth);
+        diameter = Math.max(diameter, 2 + leftDepth + rightDepth);
 
         return 1 + Math.max(leftDepth, rightDepth);
     }
 
     depth(root);
 
-    return maxDiameter;
+    return diameter;
 };
