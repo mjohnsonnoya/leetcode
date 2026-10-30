@@ -12,11 +12,8 @@
 
 function removeNthFromEnd(head: ListNode | null, n: number): ListNode | null {
     const nodes: ListNode[] = [];
-
     const dummy = new ListNode(undefined, head);
-
     let curr = dummy;
-
     while (curr !== null) {
         nodes.push(curr);
         curr = curr.next;
@@ -28,3 +25,4 @@ function removeNthFromEnd(head: ListNode | null, n: number): ListNode | null {
 
     return dummy.next;
 };
+
