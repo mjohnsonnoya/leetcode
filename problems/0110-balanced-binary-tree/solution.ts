@@ -14,7 +14,6 @@
 
 function isBalanced(root: TreeNode | null): boolean {
     let balanced = true;
-
     function depth(root: TreeNode | null): number {
         if (!root) {
             return 0;
@@ -23,10 +22,7 @@ function isBalanced(root: TreeNode | null): boolean {
         const leftDepth = depth(root.left);
         const rightDepth = depth(root.right);
 
-        if (Math.abs(leftDepth - rightDepth) > 1) {
-            balanced = false;
-        }
-
+        if (Math.abs(leftDepth - rightDepth) > 1) balanced = false;
 
         return 1 + Math.max(leftDepth, rightDepth);
     }
