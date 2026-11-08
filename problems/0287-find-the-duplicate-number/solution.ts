@@ -10,7 +10,7 @@ function findDuplicate(nums: number[]): number {
         fast = nums[nums[fast]];
     }
 
-    slow = 0;
+    fast = 0;
 
     while (slow !== fast) {
         slow = nums[slow];
