@@ -3,23 +3,22 @@ function trap(height: number[]): number {
     let r = height.length - 1;
     let leftMax = height[l];
     let rightMax = height[r];
-
+    
     let water = 0;
 
-    while (l <= r)  {
+    while (l <= r) {
         if (leftMax <= rightMax) {
-            leftMax = Math.max(leftMax, height[l]);
+            leftMax = Math.max(height[l], leftMax);
             water += leftMax - height[l];
             l += 1;
         }
 
         else {
-            rightMax = Math.max(rightMax, height[r]);
+            rightMax = Math.max(height[r], rightMax);
             water += rightMax - height[r];
             r -= 1;
         }
     }
 
     return water;
-
 };
