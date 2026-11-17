@@ -1,24 +1,24 @@
 function topKFrequent(nums: number[], k: number): number[] {
-    const count = new Map<number, number>();
+    const counter = new Map<number, number>();
+
     for (const num of nums) {
-        count.set(num, (count.get(num) ?? 0) + 1); 
+        counter.set(num, (counter.get(num) ?? 0) + 1);
     }
 
     const buckets = Array.from({length: nums.length + 1}, () => []);
 
-    for (const [k, v] of count) {
-        buckets[v].push(k);
+    for (const [num, count] of counter) {
+        buckets[count].push(num);
     }
 
-    let answer = [];
+    const answer = [];
+
     for (let i = buckets.length - 1; i >= 0; i--) {
-        for (const num of buckets[i]) {
-            answer.push(num);
+        for (let j = 0; j < buckets[i].length; j++) {
+            answer.push(buckets[i][j]);
         }
         if (answer.length === k) {
-            break;
+            return answer;
         }
     }
-
-    return answer;
 };
