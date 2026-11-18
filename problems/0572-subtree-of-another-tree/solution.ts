@@ -13,17 +13,16 @@
  */
 
 function isSubtree(root: TreeNode | null, subRoot: TreeNode | null): boolean {
-    function isSameTree(p: TreeNode | null, q: TreeNode | null): boolean {
+    if (!root || !subRoot) {
+        return !root && !subRoot;
+    }
+    function isSametree(p: TreeNode | null, q: TreeNode | null): boolean {
         if (!p || !q) {
             return !p && !q;
         }
 
-        return p.val === q.val && isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+        return (p.val === q.val && isSametree(p.left, q.left) && isSametree(p.right, q.right))
     }
 
-    if (!root || !subRoot) {
-        return !root && !subRoot;
-    }
-
-    return isSameTree(root, subRoot) || isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
+    return isSametree(root, subRoot) || isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
 };
