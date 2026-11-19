@@ -1,50 +1,41 @@
 function minWindow(s: string, t: string): string {
-    let numNeeded = t.length;
+    const counter = new Map<string, number>();
 
-    const count = new Map<string, number>();
     for (const char of t) {
-        count.set(char, (count.get(char) ?? 0) + 1);
+        counter.set(char, (counter.get(char) ?? 0) + 1);
     }
+
+    let numNeeded = t.length;
 
     let l = 0;
 
-    let leftMin = -1;
     let minLength = Infinity;
-    for (let r = 0; r < s.length; r++) {
-        let rightChar = s[r];
-        count.set(rightChar, (count.get(rightChar) ?? 0) - 1);
+    let minLeft = -1;
 
-        if (count.get(rightChar) >= 0) {
+    for (let r = 0; r < s.length; r++) {
+        const rightChar = s[r];
+        counter.set(rightChar, (counter.get(rightChar) ?? 0) - 1);
+        if (counter.get(rightChar) >= 0) {
             numNeeded -= 1;
         }
 
-        let leftChar = s[l];
-        while (count.get(leftChar) < 0) {
-            count.set(leftChar, (count.get(leftChar) ?? 0) + 1);
+        while (counter.get(s[l]) < 0) {
+            counter.set(s[l], (counter.get(s[l]) ?? 0) + 1);
             l += 1;
-            leftChar = s[l];
         }
 
         if (numNeeded === 0) {
             if ((r - l + 1) < minLength) {
+                minLeft = l;
                 minLength = r - l + 1;
-                leftMin = l;
             }
+            counter.set(s[l], (counter.get(s[l]) ?? 0) + 1);
+            numNeeded += 1;
+            l += 1;
         }
+        // console.log(s.slice(l, r + 1));
     }
 
-    if (leftMin !== -1) {
-        return s.slice(leftMin, leftMin + minLength);
-    }
-
-    else {
-        return "";
-    }
-
-
-
-
-    
-
+    return (minLeft !== -1) ? s.slice(minLeft, minLeft + minLength) : "";
 
 };
