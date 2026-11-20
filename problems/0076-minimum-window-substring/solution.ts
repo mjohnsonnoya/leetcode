@@ -4,13 +4,12 @@ function minWindow(s: string, t: string): string {
     for (const char of t) {
         counter.set(char, (counter.get(char) ?? 0) + 1);
     }
-
     let numNeeded = t.length;
 
     let l = 0;
 
+    let minL = -1;
     let minLength = Infinity;
-    let minLeft = -1;
 
     for (let r = 0; r < s.length; r++) {
         const rightChar = s[r];
@@ -20,22 +19,21 @@ function minWindow(s: string, t: string): string {
         }
 
         while (counter.get(s[l]) < 0) {
-            counter.set(s[l], (counter.get(s[l]) ?? 0) + 1);
+            counter.set(s[l], counter.get(s[l]) + 1);
             l += 1;
         }
 
         if (numNeeded === 0) {
             if ((r - l + 1) < minLength) {
-                minLeft = l;
+                minL = l;
                 minLength = r - l + 1;
             }
-            counter.set(s[l], (counter.get(s[l]) ?? 0) + 1);
-            numNeeded += 1;
+
+            counter.set(s[l], counter.get(s[l]) + 1);
             l += 1;
+            numNeeded += 1;
         }
-        // console.log(s.slice(l, r + 1));
     }
 
-    return (minLeft !== -1) ? s.slice(minLeft, minLeft + minLength) : "";
-
+    return minL === -1 ? "" : s.slice(minL, minL + minLength);
 };
