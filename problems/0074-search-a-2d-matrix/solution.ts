@@ -1,39 +1,41 @@
 function searchMatrix(matrix: number[][], target: number): boolean {
-    const nrows = matrix.length;
-    const ncols = matrix[0].length;
+    const m = matrix.length;
+    const n = matrix[0].length;
 
     let left = 0;
-    let right = nrows - 1;
+    let right = m - 1;
 
     while (left < right) {
         const middle = Math.ceil((left + right)/2);
+        if (target <= matrix[middle][n - 1] && target >= matrix[middle][0]) {
+            left = middle;
+            right = middle;
+        }
 
-        if (target < matrix[middle][0]) {
+        if (target > matrix[middle][n - 1]) {
+            left = middle + 1;
+        }
+
+        else if (target < matrix[middle][0]) {
             right = middle - 1;
         }
-
-        else {
-            left = middle;
-        }
     }
 
-    if (left < 0 || right > nrows - 1) {
-        return false;
-    }
+    if (left > m - 1 || right < 0) return false;
 
     const row = left;
 
     let l = 0;
-    let r = ncols - 1;
+    let r = n - 1;
 
     while (l <= r) {
-        const m = Math.floor((l + r) / 2);
+        const m = Math.floor((l + r)/2);
 
-        if (matrix[row][m] === target) {
+        if (target === matrix[row][m]) {
             return true;
         }
 
-        else if (matrix[row][m] < target) {
+        else if (target > matrix[row][m]) {
             l = m + 1;
         }
 
